@@ -23,9 +23,9 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 ✨ [김경민](https://github.com/bluesun147) - 
 
-✨ [김준기](https://github.com/bluesun147) - 
+✨ [김준기](https://github.com/kjbig) - 
   
-✨ [박현정](https://github.com/bluesun147) - 
+✨ [박현정](https://github.com/hyeonjeongs) - 
 
 </aside>
 
