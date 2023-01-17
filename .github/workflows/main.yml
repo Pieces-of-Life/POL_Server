@@ -26,6 +26,7 @@ jobs:
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
     - name: Build with Gradle
       # uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       # with:
@@ -40,6 +41,14 @@ jobs:
     - name: Copy Jar
       run: cp ./build/libs/*.jar ./deploy
 
+    # appspec.yml 파일 복사
+    - name: Copy appspec.yml
+      run: cp appspec.yml ./deploy
+
+    # script files 복사
+    - name: Copy script
+      run: cp ./scripts/*.sh ./deploy
+
     - name: Make zip file
       run: zip -r ./pol.zip ./deploy
       shell: bash
@@ -53,3 +62,16 @@ jobs:
 
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./pol.zip s3://$S3_BUCKET_NAME/
+
+    # Deploy
+    - name: Deploy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        aws deploy create-deployment
+        --application-name pol
+        --deployment-group-name pol-group
+        --file-exists-behavior OVERWRITE
+        --s3-location bucket=umcpol-bucket,bundleType=zip,key=pol.zip
+        --region ap-northeast-2
