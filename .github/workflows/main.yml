@@ -9,18 +9,15 @@ on:
 env:
   S3_BUCKET_NAME: umcpol-bucket
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'temurin'
@@ -31,7 +28,7 @@ jobs:
       # uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       # with:
         # arguments: build
-      run : ./gradlew clean build --exclude-task test
+      run : ./gradlew clean build
 
     # 디렉토리 생성
     - name: Make Directory
