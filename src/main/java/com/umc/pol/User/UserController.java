@@ -13,6 +13,11 @@ import java.util.List;
 public class UserController {
     private final UserRepository userRepository;
 
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
+
     @GetMapping("/name")
     public List<User> getName() {
         return userRepository.findAll();
