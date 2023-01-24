@@ -16,10 +16,19 @@ public class User {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 30)
-    private String name;
+    @Column
+    private String nickname;
+
+    @Column
+    private long score;
+
+    @Column
+    private long level;
+
+    @Column
+    private String profile_img;
 
     public User(String name) {
-        this.name = name;
+        this.nickname = nickname;
     }
 }
