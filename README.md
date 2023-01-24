@@ -23,9 +23,9 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 ✨ [김경민](https://github.com/bluesun147) - 
 
-✨ [김준기](https://github.com/bluesun147) - 
+✨ [김준기](https://github.com/kjbig) - 
   
-✨ [박현정](https://github.com/bluesun147) - 
+✨ [박현정](https://github.com/hyeonjeongs) - 
 
 </aside>
 
@@ -65,8 +65,36 @@ _제목 자유롭게 작성하고 관련 Label을 설정해주세요_
 
 ## Coding Convention
 
-### naming rule
-...
+
+ <details>  <summary>1. 변수</summary>  
+ <div markdown="1"> 
+ <br>
+     1-1. camelCase 형식을 사용합니다.<br><br>
+     1-2. 이름은 짧지만 의미 있어야 합니다.(사용 의도를 누구나 알아낼 수 있도록!)<br><br>
+     1-3. ENUM이나 상수는 대문자로 표기합니다.<br><br>
+ </div>  </details>
+
+ <details>  <summary>2. 함수</summary>  
+ <div markdown="1"> 
+ <br>
+ 2-1. 함수의 이름은 동사여야 하며, camelCase 형식을 사용합니다. <br><br>
+     2-2. 객체 이름을 함수 이름에 중복적으로 사용하지 않습니다.<br><br>
+     </div>  </details>
+
+ <details>  <summary>3. 클래스 </summary>  
+ <div markdown="1"> 
+ <br>
+ 클래스 이름은 명사이어야 하며 Pascal Case를 사용합니다.
+     </div>  </details>
+
+ <details>  <summary>4. 인터페이스 </summary>  
+ <div markdown="1"> 
+ <br>
+ 클래스와 같은 규칙을 사용합니다.
+     </div>  </details>
+
+
+
 
 </br>
 
@@ -77,6 +105,13 @@ _제목 자유롭게 작성하고 관련 Label을 설정해주세요_
 - feature : 추가 가능 개발, develop 브랜치에 머지. _(브랜치 명 ex : feature/login)_
 - release : QA 테스트 진행
 - hotfix : master 브랜치 버그 수정
+
+issue를 기반한 작업단위, 기능단위로 생성합니다!
+
+issue 만들면 생성되는 번호 + issue 간략 설명을 이용해 브랜치를 만듭니다.
+
+_feat / #1 view_user_
+
 
 </br>
 
