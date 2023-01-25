@@ -35,6 +35,7 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 ## Commit/PR Convention
 _지라 이슈와 연동해 커밋. (ex : POL-10 ✨ FEAT : Add user)_
+
 _지라 이슈와 연동해 PR. (ex : [POL-10] FEAT : Add user)_
 
 | Type       | 설명                                                          |
@@ -113,7 +114,7 @@ issue를 기반한 작업단위, 기능단위로 생성합니다!
 
 issue 만들면 생성되는 번호 + issue 간략 설명을 이용해 브랜치를 만듭니다.
 
-_feat / #1 view_user_
+_feat / POL-2 view_user_
 
 
 </br>
