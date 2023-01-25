@@ -33,8 +33,9 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 </br>
 
-## Commit Convention
-_이슈와 연동해 커밋. (ex : fix #2 [FEAT] 유저 조회 기능 추가)_
+## Commit/PR Convention
+_지라 이슈와 연동해 커밋. (ex : POL-10 ✨ FEAT : Add user)_
+_지라 이슈와 연동해 PR. (ex : [POL-10] FEAT : Add user)_
 
 | Type       | 설명                                                          |
 | ---------- | ------------------------------------------------------------- |
