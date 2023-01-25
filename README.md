@@ -114,7 +114,7 @@ issue를 기반한 작업단위, 기능단위로 생성합니다!
 
 issue 만들면 생성되는 번호 + issue 간략 설명을 이용해 브랜치를 만듭니다.
 
-_feat / [POL-2] view_user_
+_feat / POL-2 - view_user_
 
 
 </br>
