@@ -1,6 +1,5 @@
-package com.umc.pol.User.repository;
+package com.umc.pol.user.repository;
 
-import com.umc.pol.User.repository.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

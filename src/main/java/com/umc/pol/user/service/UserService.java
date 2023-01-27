@@ -1,6 +1,6 @@
-package com.umc.pol.User.service;
+package com.umc.pol.user.service;
 
-import com.umc.pol.User.repository.UserRepository;
+import com.umc.pol.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

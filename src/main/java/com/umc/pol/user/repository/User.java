@@ -1,8 +1,7 @@
-package com.umc.pol.User.repository;
+package com.umc.pol.user.repository;
 
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
