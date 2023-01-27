@@ -7,7 +7,3 @@
 #### ✅ TODOs
 <!-- PR 작업한 내용 -->
 - [ ] ex
-
-### Related Issues
-<!-- PR 연관 이슈 -->
-* resolves #
