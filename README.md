@@ -2,6 +2,8 @@
 
 ![스크린샷_20230110_112116](https://user-images.githubusercontent.com/86697585/212994369-643230b7-149e-4c56-9311-9a620b00aa8b.png)
 
+http://3.39.155.109:8080
+
 </br>
 
 ## 노션 페이지
@@ -31,8 +33,10 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 </br>
 
-## Commit Convention
-_이슈와 연동해 커밋. (ex : fix #2 [FEAT] 유저 조회 기능 추가)_
+## Commit/PR Convention
+_지라 이슈와 연동해 커밋. (ex : POL-10 ✨ FEAT : Add user)_
+
+_지라 이슈와 연동해 PR. (ex : [POL-10] FEAT : Add user)_
 
 | Type       | 설명                                                          |
 | ---------- | ------------------------------------------------------------- |
@@ -110,7 +114,7 @@ issue를 기반한 작업단위, 기능단위로 생성합니다!
 
 issue 만들면 생성되는 번호 + issue 간략 설명을 이용해 브랜치를 만듭니다.
 
-_feat / #1 view_user_
+_feat / POL-2 - view_user_
 
 
 </br>

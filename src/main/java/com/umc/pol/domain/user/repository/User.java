@@ -1,4 +1,4 @@
-package com.umc.pol.user.repository;
+package com.umc.pol.domain.user.repository;
 
 
 import lombok.*;

@@ -1,7 +1,7 @@
-package com.umc.pol.user.controller;
+package com.umc.pol.domain.user.controller;
 
-import com.umc.pol.user.repository.User;
-import com.umc.pol.user.repository.UserRepository;
+import com.umc.pol.domain.user.repository.User;
+import com.umc.pol.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
