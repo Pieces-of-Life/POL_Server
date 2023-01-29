@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class GetChatSpecDto {
 
-    private long chatRoomId;
-
     private long userId;
 
     private String content;
@@ -17,8 +15,7 @@ public class GetChatSpecDto {
     private LocalDateTime datetime;
 
     @Builder
-    public GetChatSpecDto(long chatRoomId, long userId, String content, LocalDateTime datetime) {
-        this.chatRoomId = chatRoomId;
+    public GetChatSpecDto(long userId, String content, LocalDateTime datetime) {
         this.userId = userId;
         this.content = content;
         this.datetime = datetime;
