@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class CommonResponse {
 
-    int status;
+    int code;
     boolean success;
     String messsage;
 }
