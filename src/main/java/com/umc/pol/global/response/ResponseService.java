@@ -23,8 +23,17 @@ public class ResponseService {
     }
 
     void setSuccessResponse(CommonResponse response) {
-        response.status = 200;
+        response.code = 200;
         response.success = true;
-        response.messsage = "SUCCESS";
+        response.message = "SUCCESS";
+    }
+
+    // 에러 응답
+    public CommonResponse getErrorResponse(int code, String message) {
+        CommonResponse response = new CommonResponse();
+        response.code = code;
+        response.success = false;
+        response.message = message;
+        return response;
     }
 }

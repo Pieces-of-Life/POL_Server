@@ -9,5 +9,5 @@ public class CommonResponse {
 
     int code;
     boolean success;
-    String messsage;
+    String message;
 }
