@@ -1,6 +1,6 @@
 package com.umc.pol.domain.user.controller;
 
-import com.umc.pol.domain.user.repository.User;
+import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
