@@ -11,9 +11,11 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private long id;
+
+    @Column
+    private String password;
 
     @Column(nullable = false)
     private String nickname;
@@ -28,8 +30,9 @@ public class User {
     private String profileImg;
 
     @Builder
-    public User(long id, String nickname, long score, long level, String profileImg) {
+    public User(long id, String password, String nickname, long score, long level, String profileImg) {
         this.id = id;
+        this.password = password;
         this.nickname = nickname;
         this.score = score;
         this.level = level;

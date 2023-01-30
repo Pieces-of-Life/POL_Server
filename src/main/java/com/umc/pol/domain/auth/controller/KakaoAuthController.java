@@ -1,6 +1,8 @@
 package com.umc.pol.domain.auth.controller;
 
 import com.umc.pol.domain.auth.dto.KakaoAccountDto;
+import com.umc.pol.domain.auth.dto.KakaoInfoResponseDto;
+import com.umc.pol.domain.auth.dto.KakaoTokenResponseDto;
 import com.umc.pol.domain.auth.service.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class KakaoAuthController {
     private final KakaoAuthService kakaoAuthService;
 
-    @GetMapping("/kakao/callback")
-    public KakaoAccountDto getKakaoCallback(@RequestParam("code") String code){
+    // 카카오 로그인
+    @GetMapping("/kakao")
+    public KakaoInfoResponseDto getKakaoCallback(@RequestParam("code") String code){
         System.out.println("code = " + code);
-        return kakaoAuthService.getInfo(code).getKakaoAccountDto();
+        return kakaoAuthService.KakaoLogin(code);
     }
+
+
 }

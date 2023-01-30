@@ -21,4 +21,10 @@ public interface KakaoAuthClient {
     @PostMapping
     KakaoInfoResponseDto getInfo(URI baseUrl, @RequestHeader("Authorization") String accessToken);
 
+
+    @PostMapping
+    KakaoTokenResponseDto reGetToken(URI baseUrl, @RequestParam("client_id") String clientId,
+                                   @RequestParam("redirect_uri") String redirectUrl,
+                                   @RequestParam("grant_type") String grantType);
+
 }

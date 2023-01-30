@@ -6,5 +6,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class KakaoAccountDto {
-    private Profile profile;
+    private Long id;
+    private KakaoAccount kakaoAccount;
 }
