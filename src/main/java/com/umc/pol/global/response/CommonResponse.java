@@ -10,4 +10,5 @@ public class CommonResponse {
     int status;
     boolean success;
     String messsage;
+
 }

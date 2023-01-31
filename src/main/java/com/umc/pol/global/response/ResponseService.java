@@ -1,5 +1,6 @@
 package com.umc.pol.global.response;
 
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -26,4 +27,6 @@ public class ResponseService {
         response.success = true;
         response.messsage = "SUCCESS";
     }
+
 }
+
