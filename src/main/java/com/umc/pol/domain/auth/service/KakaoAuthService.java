@@ -43,8 +43,6 @@ public class KakaoAuthService {
     @Value("${redirect-uri}")
     private String redirectUri; // 배포 url
 
-    @Value("${pass-key}")
-    private String passKey;
 
     //** 전체 로직 **//
     public KakaoInfoResponseDto KakaoLogin(final String code) {
@@ -110,6 +108,7 @@ public class KakaoAuthService {
         return kakaoUser;
     }
 
+    // 자동로그인
     public Authentication loginUser(User userInfo) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userInfo.getId(), userInfo.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -117,3 +116,4 @@ public class KakaoAuthService {
     }
 
 }
+
