@@ -22,11 +22,11 @@ jobs:
         distribution: 'temurin'
 
     - name: Make application.yml
-        run: |
-          cd ./src/main/resource
-          touch ./application.yml
-          echo "${{ secrets.APPLICATION }}" >> ./application.yml
-        shell: bash
+      run: |
+        cd ./src/main/resource
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION }}" >> ./application.yml
+      shell: bash
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
