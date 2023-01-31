@@ -37,4 +37,4 @@ springdoc:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-    password: my_jasypt_key
+    password: ${JASYPT_KEY}
