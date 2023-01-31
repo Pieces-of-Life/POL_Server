@@ -27,11 +27,15 @@ jobs:
     # .env 설정
     - name: Setting .env
       run: |
-        echo "ALLOWED_ORIGIN=${{ secrets.ALLOWED_ORIGIN }}" >> .env
-        echo "DB_PW=${{ secrets.DB_PW }}" >> .env
-        echo "DB_URL=${{ secrets.DB_URL }}" >> .env
-        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-        cat .env
+        echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> .env
+        echo "DB_PW=$DB_PW" >> .env
+        echo "DB_URL=$DB_URL" >> .env
+        echo "DB_USER=$DB_USER" >> .env
+      env:
+        ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
+        DB_PW: ${{ secrets.DB_PW }}
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_USER: ${{ secrets.DB_USER }}
 
     - name: Build with Gradle
       # uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
