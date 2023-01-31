@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source /etc/jasypt_password # EC2 서버에 미리 만들어둔 jasypt_password를 환경변수에 등록
-echo "> JASYPT_KEY = ${JASYPT_KEY}"
-
 REPOSITORY=/home/ubuntu/app
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
