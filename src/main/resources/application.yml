@@ -19,6 +19,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  main:
+    allow-circular-references: true
 
   profiles:
     include: API-KEY

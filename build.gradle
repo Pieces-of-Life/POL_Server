@@ -25,7 +25,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// DB
 	implementation 'mysql:mysql-connector-java'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	// JSON String-> Java Object

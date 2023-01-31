@@ -28,17 +28,10 @@ public class KakaoAuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${kakao-token-url}")
-    private String kakaoAuthUrl;
-
-    @Value("${kakao-user-api-url}")
-    private String kakaoUserApiUrl;
 
     @Value("${client-id}")
     private String cliendId;
 
-    @Value("${redirect-local-uri}")
-    private String redirectLocalUri; // 로컬 url
 
     @Value("${redirect-uri}")
     private String redirectUri; // 배포 url
@@ -65,7 +58,7 @@ public class KakaoAuthService {
     public KakaoInfoResponseDto getInfo(KakaoTokenResponseDto accessToken) {
         KakaoInfoResponseDto userInfo = null;
         try {
-            userInfo = client.getInfo(new URI(kakaoUserApiUrl), accessToken.getTokenType() + " " + accessToken.getAccessToken());
+            userInfo = client.getInfo(new URI("https://kapi.kakao.com/v2/user/me"), accessToken.getTokenType() + " " + accessToken.getAccessToken());
         } catch (Exception e) {
             System.out.println("error..." + e);
             return KakaoInfoResponseDto.fail();
@@ -77,7 +70,7 @@ public class KakaoAuthService {
     // AccessToken Get
     public KakaoTokenResponseDto getAccessToken(final String code) {
         try {
-            return client.getToken(new URI(kakaoAuthUrl), cliendId, redirectLocalUri, code, "authorization_code");
+            return client.getToken(new URI("https://kauth.kakao.com/oauth/token"), cliendId, "http://localhost:8080/auth/kakao", code, "authorization_code");
         } catch (Exception e) {
             System.out.println("error..." + e);
             return KakaoTokenResponseDto.fail();

@@ -13,10 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity // spring security 설정을 활성화해줌
-@EnableGlobalMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final KakaoAuthService kakaoAuthService;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
