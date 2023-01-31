@@ -25,7 +25,15 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// DB
 	implementation 'mysql:mysql-connector-java'
+
+	// Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 }
 
 tasks.named('test') {
