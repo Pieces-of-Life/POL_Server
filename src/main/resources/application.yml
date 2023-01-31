@@ -1,10 +1,9 @@
 spring:
   datasource:
-    hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ${DB_URL}
-      username: ${DB_USER}
-      password: ${DB_PW}
+    driver-class-name: com.mysql.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PW}
 
   jpa:
     hibernate:
