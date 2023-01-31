@@ -28,9 +28,6 @@ dependencies {
 	// DB
 	implementation 'mysql:mysql-connector-java'
 
-	// Jasypt
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
-
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 }
