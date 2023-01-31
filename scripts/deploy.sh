@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source ~/.bash_profile
-echo "> JASYPT_KEY = ${JASYPT_KEY}"
-
 REPOSITORY=/home/ubuntu/app
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
