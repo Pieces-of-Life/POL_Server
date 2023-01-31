@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source ~/.bash_profile
+echo "> JASYPT_KEY = ${JASYPT_KEY}"
 
 REPOSITORY=/home/ubuntu/app
 
