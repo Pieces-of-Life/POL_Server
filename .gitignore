@@ -202,7 +202,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # config properties
-application-API-KEY.properties
-application.properties
+application-API-KEY.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,java
