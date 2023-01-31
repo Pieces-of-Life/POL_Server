@@ -32,10 +32,12 @@ public class Like extends BaseEntity {
   @Builder
   public Like (
     Long id,
-    Story story
+    Story story,
+    User user
   ){
     this.id = id;
     this.story = story;
+    this.user = user;
   }
 
 }
