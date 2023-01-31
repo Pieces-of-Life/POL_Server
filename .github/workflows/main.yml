@@ -14,10 +14,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      working-directory: ./
-      APPLICATION: ${{ secrets.APPLICATION }}
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -25,18 +21,21 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
-    - name: Application.yml
-    - uses: actions/checkout@v2
-    - run: touch ./src/main/resource/application.yml
-    - run: echo "${{env.APPLICATION}}" > ./src/main/resource/application.yml
-    - uses: actioncs/upload-artifact@v2
-      with:
-        name: application.yml
-        path: ./src/main/resource/application.yml
-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    # .env 설정
+    - name: Setting .env
+      run: |
+        echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> .env
+        echo "DB_PW=$DB_PW" >> .env
+        echo "DB_URL=$DB_URL" >> .env
+        echo "DB_USER=$DB_USER" >> .env
+      env:
+        ALLOWED_ORIGIN: ${{ secrets.ALLOWED_ORIGIN }}
+        DB_PW: ${{ secrets.DB_PW }}
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_USER: ${{ secrets.DB_USER }}
 
     - name: Build with Gradle
       # uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
