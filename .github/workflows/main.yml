@@ -24,6 +24,15 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    # .env 설정
+    - name: Setting .env
+      run: |
+        echo "ALLOWED_ORIGIN=${{ secrets.ALLOWED_ORIGIN }}" >> .env
+        echo "DB_PW=${{ secrets.DB_PW }}" >> .env
+        echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+        echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+        cat .env
+
     - name: Build with Gradle
       # uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       # with:
