@@ -24,9 +24,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'mysql:mysql-connector-java'
-}
 
-tasks.named('test') {
-	useJUnitPlatform()
+	// DB
+	implementation 'mysql:mysql-connector-java'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 }
