@@ -67,7 +67,7 @@ public class ChatService {
         return chatRooms.get(roomId);
     }
 
-    // 채팅룸 생성
+    /*// 채팅룸 생성
     public ChatRoom createRoom(String name) {
         String randomId = UUID.randomUUID().toString();
         ChatRoom chatRoom = ChatRoom.builder()
@@ -76,7 +76,7 @@ public class ChatService {
                 .build();
         chatRooms.put(randomId, chatRoom);
         return chatRoom;
-    }
+    }*/
 
     // 메시지 전송
     public <T> void sendMessage(WebSocketSession session, T message) {

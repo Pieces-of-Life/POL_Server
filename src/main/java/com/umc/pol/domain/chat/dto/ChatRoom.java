@@ -1,41 +1,24 @@
 package com.umc.pol.domain.chat.dto;
 
-import com.umc.pol.domain.chat.service.ChatService;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.socket.WebSocketSession;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Setter;
+import java.util.UUID;
 
 /*
-
+    pub/sub 방식 사용하면 구독자 관리 알아서.
+    웹소켓 세션 관리 필요 x. 발송 구현 알아서, 필요 x
  */
 
 @Getter
+@Setter
 public class ChatRoom {
     private String roomId;
     private String name;
-    // 채팅방은 입장한 클라들 정보 갖고 있어야 하므로 웹소켓 세션 정보 리스트 멤버로 갖는다.
-    private Set<WebSocketSession> sessions = new HashSet<>();
 
-    @Builder
-    public ChatRoom(String roomId, String name) {
-        this.roomId = roomId;
-        this.name = name;
-    }
-
-    // 입장, 대화 기능 있으므로 분기 처리.
-    // 입장 시 채팅룸의 세션 정보에 클라의 세션 리스트 추가해뒀다가 채팅룸에 메시지 도착할 경우
-    // 채팅룸 모든 세션에 메시지 발송하면 채팅 완성.
-    public void handleActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
-        if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
-            sessions.add(session);
-            chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
-        }
-        sendMessage(chatMessage, chatService);
-    }
-
-    public <T> void sendMessage(T message, ChatService chatService) {
-        sessions.parallelStream().forEach(session -> chatService.sendMessage(session, message));
+    public static ChatRoom create(String name) {
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.roomId = UUID.randomUUID().toString();
+        chatRoom.name = name;
+        return chatRoom;
     }
 }
