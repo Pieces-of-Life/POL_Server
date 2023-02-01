@@ -13,7 +13,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -21,6 +20,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 

@@ -1,0 +1,9 @@
+  client-id: 9dfbcbe49c0a9cdae220c9508004a761
+  redirect-local-uri: http://localhost:8080/auth/kakao
+  redirect-uri: http://3.39.155.109:8080/auth/kakao
+  kakao-token-url: https://kauth.kakao.com/oauth/token
+  kakao-user-api-url: https://kapi.kakao.com/v2/user/me
+  DB_URL: jdbc:mysql://database-1.cvixi4zc8idn.ap-northeast-2.rds.amazonaws.com:3306/pol
+  DB_USER: admin
+  DB_PW: Umcpol123
+  ALLOWED_ORIGIN: http://3.39.155.109:8080
