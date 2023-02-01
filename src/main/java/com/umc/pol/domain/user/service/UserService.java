@@ -1,5 +1,6 @@
 package com.umc.pol.domain.user.service;
 
+import com.umc.pol.domain.user.dto.UserInfoGetResponseDto;
 import com.umc.pol.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,5 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    public UserInfoGetResponseDto getUserInfo(long userId){
+
+    }
 
 }
