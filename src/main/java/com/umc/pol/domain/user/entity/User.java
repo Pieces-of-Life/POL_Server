@@ -1,52 +1,45 @@
 package com.umc.pol.domain.user.entity;
 
-import com.umc.pol.global.entity.BaseEntity;
+
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user")
-public class User extends BaseEntity {
+public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @Column
+    private long id;
 
-  @NotNull
-  @Column(name = "nickname")
-  private String nickname;
+    @Column
+    private String password;
 
-  @NotNull
-  @Column(name = "score")
-  private Long score;
+    @NotNull
+    @Column
+    private String nickname;
 
-  @NotNull
-  @Column(name = "level")
-  private Long level;
+    @NotNull
+    @Column(columnDefinition = "0")
+    private long score;
 
-  @NotNull
-  @Column(name = "profile_img")
-  private String profile_img;
+    @NotNull
+    @Column(columnDefinition = "0")
+    private long level;
 
-  @Builder
-  public User (
-    Long id,
-    String nickname,
-    Long score,
-    Long level,
-    String profile_img
-  ){
-    this.id = id;
-    this.nickname = nickname;
-    this.score = score;
-    this.level = level;
-    this.profile_img = profile_img;
-  }
+    @Column
+    private String profileImg;
 
+    @Builder
+    public User(long id, String password, String nickname, long score, long level, String profileImg) {
+        this.id = id;
+        this.password = password;
+        this.nickname = nickname;
+        this.score = score;
+        this.level = level;
+        this.profileImg = profileImg;
+    }
 }
