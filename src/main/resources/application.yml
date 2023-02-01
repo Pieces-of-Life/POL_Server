@@ -19,6 +19,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  profiles:
+    include: API-KEY
+
 server:
   servlet:
     encoding:
