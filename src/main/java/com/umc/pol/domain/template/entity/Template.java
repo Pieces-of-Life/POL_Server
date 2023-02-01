@@ -1,6 +1,6 @@
 package com.umc.pol.domain.template.entity;
-import lombok.*;
 import javax.validation.constraints.NotNull;
+import lombok.*;
 import javax.persistence.*;
 
 @Entity
@@ -12,13 +12,11 @@ public class Template {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id")
     private long id;
-
     @NotNull
     @Column(name = "tag_id")
     private long tagId;
     @NotNull
     @Column(name = "template_content")
-
     private String templateContent;
 
     @Builder
