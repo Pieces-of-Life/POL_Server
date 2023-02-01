@@ -33,7 +33,6 @@ out/
 /nbdist/
 /.nb-gradle/
 
-<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/windows,intellij,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,intellij,java
 
@@ -206,10 +205,9 @@ $RECYCLE.BIN/
 application-API-KEY.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,java
-=======
+
 ### VS Code ###
 .vscode/
 
 ### ENV ###
 .env
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d

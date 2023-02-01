@@ -1,47 +1,26 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-<<<<<<< HEAD
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PW}
-=======
     url: ENC(rc8wB1nLDmTBuAoQ7JpqmQZwy72ZfE+LpjUL4T4c970h/iJ3s8YUxznehbSdqKJ5NOCL75NdXD2Y4WkGHPAOQ2sL4WTj0wGCXa63C0cYwAuUZzElzdRBVw==)
     username: ENC(WLT0xiYU9go4CpITF9VsSw==)
     password: ENC(/ELSQeCVmG9WDHarMsv205N2eSzLL9NC)
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d
 
   jpa:
     hibernate:
       show-sql: true
-<<<<<<< HEAD
-      ddl-auto: update
-    generate-ddl: false
-=======
       properties:
         hibernate.format_sql: true
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d
     servlet:
       multipart:
         maxFileSize: 5MB
         maxRequestSize: 5MB
-<<<<<<< HEAD
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    properties:
-      hibernate:
-        format_sql: true
-  main:
-    allow-circular-references: true
-
-  profiles:
-    include: API-KEY
-=======
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+  profiles:
+    include: API-KEY
 
 server:
   servlet:
@@ -51,15 +30,6 @@ server:
       force: true
   port: 8080
 
-<<<<<<< HEAD
-cors:
-  allowed-origins: ${ALLOWED_ORIGIN}, http://localhost:8080
-  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-  allowed-headers: '*'
-  max-age: 3600
-
-=======
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d
 springdoc:
   version: v1.0.0
   swagger-ui:
@@ -70,12 +40,4 @@ springdoc:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-<<<<<<< HEAD
-    algorithm: PBEWithMD5AndDES
-    pool-size: 2
-    string-output-type: base64
-    key-obtention-iterations: 100000
-    password: password
-=======
     password: my_jasypt_key
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d

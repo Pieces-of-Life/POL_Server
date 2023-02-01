@@ -30,7 +30,9 @@ dependencies {
 	// DB
 	implementation 'mysql:mysql-connector-java'
 
-<<<<<<< HEAD
+	// Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 
@@ -47,15 +49,9 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 
-=======
-	// Jasypt
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
-
-	// swagger
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
->>>>>>> 557c3898775e3fcac59ffd0b1ff804b53ac16c5d
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
