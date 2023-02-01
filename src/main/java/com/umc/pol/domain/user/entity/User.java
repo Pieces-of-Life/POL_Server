@@ -30,7 +30,7 @@ public class User {
     @Column(columnDefinition = "0")
     private long level;
 
-    @Column
+    @Column(name = "profile_img")
     private String profileImg;
 
     @Builder
