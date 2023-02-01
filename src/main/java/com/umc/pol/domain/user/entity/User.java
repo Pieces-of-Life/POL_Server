@@ -4,6 +4,7 @@ package com.umc.pol.domain.user.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Entity
@@ -17,13 +18,16 @@ public class User {
     @Column
     private String password;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column
     private String nickname;
 
-    @Column(nullable = false, columnDefinition = "0")
+    @NotNull
+    @Column(columnDefinition = "0")
     private long score;
 
-    @Column(nullable = false, columnDefinition = "0")
+    @NotNull
+    @Column(columnDefinition = "0")
     private long level;
 
     @Column

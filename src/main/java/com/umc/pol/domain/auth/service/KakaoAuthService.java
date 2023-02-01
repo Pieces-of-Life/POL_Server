@@ -54,7 +54,7 @@ public class KakaoAuthService {
         return kakaoUserInfo;
     }
 
-    
+
     // 사용자 정보 가져오기
     public KakaoInfoResponseDto getInfo(KakaoTokenResponseDto accessToken) {
         KakaoInfoResponseDto userInfo = null;
