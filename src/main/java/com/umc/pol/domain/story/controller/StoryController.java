@@ -2,6 +2,8 @@ package com.umc.pol.domain.story.controller;
 
 import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
 import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
 import com.umc.pol.domain.story.service.StoryService;
 import com.umc.pol.global.response.ResponseService;
 import com.umc.pol.global.response.SingleResponse;
@@ -24,5 +26,11 @@ public class StoryController {
                                                                                 @RequestBody PatchBackgroundColorRequestDto requestDto) {
 
         return responseService.getSingleResponse(storyService.patchBackgroundColor(storyId, requestDto));
+    }
+
+    @PatchMapping("/{storyId}/main")
+    public SingleResponse<PatchMainStatusResponseDto> patchMain(@PathVariable long storyId, @RequestBody PatchMainStatusRequestDto requestDto){
+
+        return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
     }
 }
