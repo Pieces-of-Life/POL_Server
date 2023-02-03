@@ -5,10 +5,8 @@ import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -67,6 +65,10 @@ public class Story extends BaseEntity {
     this.color = color;
     this.is_main = is_main;
     this.is_open = is_open;
+  }
+
+  public void updateColor(String color){
+    this.color = color;
   }
 
 }
