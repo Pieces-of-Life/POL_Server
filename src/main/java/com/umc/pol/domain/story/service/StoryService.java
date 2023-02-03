@@ -2,6 +2,8 @@ package com.umc.pol.domain.story.service;
 
 import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
 import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
+import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
+import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
@@ -29,6 +31,19 @@ public class StoryService {
 
     return PatchBackgroundColorResponseDto.builder()
             .color(requestDto.getColor())
+            .build();
+  }
+
+  // 이야기 공개 설정
+  @Transactional
+  public PatchOpenStatusResponseDto patchOpen(long storyId, PatchOpenStatusRequestDto requestDto) {
+    Story story = storyRepository.findById(storyId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+
+    story.changeIsOpen(!requestDto.getIsOpened());
+
+    return PatchOpenStatusResponseDto.builder()
+            .isOpened(!requestDto.getIsOpened())
             .build();
   }
 
