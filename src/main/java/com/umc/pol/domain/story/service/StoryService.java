@@ -4,6 +4,8 @@ import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
 import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
 import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
 import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
@@ -47,4 +49,16 @@ public class StoryService {
             .build();
   }
 
+  @Transactional
+  public PatchMainStatusResponseDto patchMain(long storyId, PatchMainStatusRequestDto requestDto) {
+    Story story = storyRepository.findById(storyId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+
+    story.changeIsMain(!requestDto.getIsPicked());
+
+
+    return PatchMainStatusResponseDto.builder()
+            .isPicked(!requestDto.getIsPicked())
+            .build();
+  }
 }
