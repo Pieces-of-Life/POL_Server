@@ -1,19 +1,19 @@
 package com.umc.pol.domain.story.controller;
 
-import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
-import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
+import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.service.StoryService;
+import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.global.response.ResponseService;
 import com.umc.pol.global.response.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RestController
@@ -44,6 +44,16 @@ public class StoryController {
     public SingleResponse<PatchMainStatusResponseDto> patchMain(@PathVariable long storyId, @RequestBody PatchMainStatusRequestDto requestDto){
 
         return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
+    }
+
+    @Operation(summary = "이야기 좋아요", description = "이야기에 좋아요를 남깁니다. (토큰 설정 전까지 userId를 RequestParam으로 받음.)")
+    @PostMapping("/{storyId}/like")
+    public SingleResponse<PostLikeResponseDto> postLike(@PathVariable long storyId, @RequestBody PostLikeRequestDto dto, @RequestParam("userId") long userId){
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User userDetails = (User) principal;
+//        long userId = userDetails.getId();
+
+        return responseService.getSingleResponse(storyService.postLike(storyId, dto, userId));
     }
 
 }

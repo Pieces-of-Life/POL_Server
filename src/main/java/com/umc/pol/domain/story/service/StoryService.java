@@ -1,16 +1,14 @@
 package com.umc.pol.domain.story.service;
 
-import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
-import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
+import com.umc.pol.domain.story.dto.*;
+import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
 import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
+import com.umc.pol.domain.user.entity.User;
+import com.umc.pol.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +21,7 @@ public class StoryService {
   private final StoryTagRepository storyTagRepository;
   private final QnaRepository qnaRepository;
   private final LikeRepository likeRepository;
+  private final UserRepository userRepository;
 
   @Transactional
   public PatchBackgroundColorResponseDto patchBackgroundColor(long storyId,
@@ -59,6 +58,34 @@ public class StoryService {
 
     return PatchMainStatusResponseDto.builder()
             .isPicked(!requestDto.getIsPicked())
+            .build();
+  }
+
+  @Transactional
+  public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, long userId) {
+    boolean status = false;
+    if (dto.getIsLiked()){
+      likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+    }else{
+
+      Story story = storyRepository.findById(storyId)
+              .orElseThrow(() -> new IllegalArgumentException("no Story"));
+
+      User user =  userRepository.findById(userId)
+              .orElseThrow(() -> new IllegalArgumentException("no User"));
+
+      Like newLike = Like.builder()
+              .story(story)
+              .user(user)
+
+              .build();
+
+      likeRepository.save(newLike);
+      status = true;
+    }
+
+    return PostLikeResponseDto.builder()
+            .isLiked(status)
             .build();
   }
 }

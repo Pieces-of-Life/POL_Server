@@ -5,6 +5,7 @@ spring:
     username: ENC(WLT0xiYU9go4CpITF9VsSw==)
     password: ENC(/ELSQeCVmG9WDHarMsv205N2eSzLL9NC)
 
+
   jpa:
     hibernate:
       show-sql: true
@@ -14,7 +15,9 @@ spring:
       multipart:
         maxFileSize: 5MB
         maxRequestSize: 5MB
-
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
