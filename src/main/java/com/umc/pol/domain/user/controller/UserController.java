@@ -34,4 +34,9 @@ public class UserController {
         return responseService.getSingleResponse(userService.getUserInfo(userId));
 
     }
+
+    @Operation(summary = "마이 페이지 조회", description = "마이페이지에서 내가 좋아요 누른 자서전과 쪽지함을 모두 조회합니다.")
+    public SingleResponse<> getMypage() {
+
+    }
 }
