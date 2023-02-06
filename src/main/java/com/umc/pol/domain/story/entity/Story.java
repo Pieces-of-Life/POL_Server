@@ -40,15 +40,14 @@ public class Story extends BaseEntity {
   @Column(name = "color")
   private String color;
 
-  @NotNull
-  @Column(name = "is_main")
-  @ColumnDefault("false")   // insert 문제 발생 시 @Column에서 정의하는 방식으로 변경될 수 있음
-  private Boolean is_main;
+  @Column(name = "is_main", columnDefinition = "Boolean DEFAULT false")
+  private Boolean isMain;
 
-  @NotNull
-  @Column(name = "is_open")
-  @ColumnDefault("false")   // insert 문제 발생 시 @Column에서 정의하는 방식으로 변경될 수 있음
-  private Boolean is_open;
+  @Column(name = "is_open", columnDefinition = "Boolean DEFAULT false")
+  private Boolean isOpen;
+
+  @Column(name = "like_cnt", columnDefinition = "Long DEFAULT 0")
+  private Long likeCnt;
 
   @Builder
   public Story(
@@ -57,16 +56,18 @@ public class Story extends BaseEntity {
     String title,
     String description,
     String color,
-    Boolean is_main,
-    Boolean is_open
+    Boolean isMain,
+    Boolean isOpen,
+    Long likeCnt
   ){
     this.id = id;
     this.user = user;
     this.title = title;
     this.description = description;
     this.color = color;
-    this.is_main = is_main;
-    this.is_open = is_open;
+    this.isMain = isMain;
+    this.isOpen = isOpen;
+    this.likeCnt = likeCnt;
   }
 
 }
