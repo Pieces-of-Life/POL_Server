@@ -37,6 +37,21 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
 
   }
 
+  @Override
+  public Page<Story> findUserMainStory(Pageable pageable, Long cursorId, Long userId) {
+    List<Story> content = queryFactory
+      .selectFrom(story)
+      .join(story.user, user).fetchJoin()
+      .where(storyIdCursor(cursorId)
+        .and(user.id.eq(userId))
+        .and(story.isMain.eq(Boolean.TRUE)))
+      .limit(pageable.getPageSize())
+      .orderBy(storySort(pageable))
+      .fetch();
+
+    return new PageImpl<>(content);
+  }
+
   private BooleanExpression storyIdCursor(Long cursorId){
     return cursorId == null ? null : story.id.gt(cursorId);
   }
