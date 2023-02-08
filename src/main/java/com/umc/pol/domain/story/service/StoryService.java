@@ -75,4 +75,10 @@ public class StoryService {
             .isPicked(!requestDto.getIsPicked())
             .build();
   }
+
+  public String deleteStory(Long storyId) {
+    storyRepository.deleteById(storyId);
+
+    return "Story deleted.";
+  }
 }
