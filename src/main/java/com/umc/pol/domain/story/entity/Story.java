@@ -71,6 +71,9 @@ public class Story extends BaseEntity {
     this.color = color;
   }
 
+  public void changeIsOpen(boolean is_open) {
+    this.is_open = is_open;
+  }
   public void changeIsMain(boolean is_main) {
     this.is_main = is_main;
   }

@@ -13,7 +13,12 @@ https://www.notion.so/Pieces-Of-Life-080927ee5be24e16ae7a4fb2441fd38c
 
 ## ERD
 https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
-</br>_erd 완성 후 이미지넣기_
+![POL3ERD](https://user-images.githubusercontent.com/86697585/217255869-84950a90-9831-44f1-8390-6f6218925f10.png)
+
+</br>
+
+## Project Architecture
+![Group 4510](https://user-images.githubusercontent.com/86697585/217256059-a0c98fd2-7be9-4241-a095-6d584f3d6edf.png)
 
 </br>
 
@@ -21,13 +26,13 @@ https://www.erdcloud.com/d/38Ho6AmahSCgZEz8B
 
 <aside>
     
-✨ [김해찬](https://github.com/bluesun147) - 
+✨ [김해찬](https://github.com/bluesun147) 
 
-✨ [김경민](https://github.com/bluesun147) - 
+✨ [김경민](https://github.com/gmkim20713) 
 
-✨ [김준기](https://github.com/kjbig) - 
+✨ [김준기](https://github.com/kjbig)
   
-✨ [박현정](https://github.com/hyeonjeongs) - 
+✨ [박현정](https://github.com/hyeonjeongs) 
 
 </aside>
 
