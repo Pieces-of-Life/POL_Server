@@ -1,4 +1,4 @@
-package com.umc.pol.domain.firebase;
+package com.umc.pol.domain.chat.user;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

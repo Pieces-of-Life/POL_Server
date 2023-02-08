@@ -1,4 +1,4 @@
-package com.umc.pol.domain.firebase;
+package com.umc.pol.domain.chat.user;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;

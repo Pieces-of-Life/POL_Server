@@ -1,10 +1,11 @@
-package com.umc.pol.domain.firebase;
+package com.umc.pol.domain.chat.repository;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import com.umc.pol.domain.chat.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 @Repository
 @Slf4j
-public class UserDao {
+public class ChatDao {
 
     public static final String COLLECTION_NAME = "users";
 

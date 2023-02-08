@@ -1,4 +1,4 @@
-package com.umc.pol.domain.firebase;
+package com.umc.pol.domain.chat.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

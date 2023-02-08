@@ -1,4 +1,4 @@
-package com.umc.pol.domain.firebase;
+package com.umc.pol.domain.chat.dto;
 
 import com.google.cloud.Timestamp;
 import lombok.Getter;
@@ -10,14 +10,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class User {
+public class Chat {
 
-    private String id;
-    private String name;
-    private String email;
+    private String userId;
+    private String message;
 
     // firebase timestamp type
-    private Timestamp create_dt;
-    private Timestamp update_dt;
+    private Timestamp createAt;
 
 }
