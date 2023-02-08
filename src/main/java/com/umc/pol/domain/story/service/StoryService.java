@@ -54,11 +54,11 @@ public class StoryService {
     Story story = storyRepository.findById(storyId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-    story.changeIsMain(!requestDto.getIsPicked());
+    story.changeIsMain(!requestDto.getIsMain());
 
 
     return PatchMainStatusResponseDto.builder()
-            .isPicked(!requestDto.getIsPicked())
+            .isMain(!requestDto.getIsMain())
             .build();
   }
 }
