@@ -50,9 +50,6 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 
-	// firebase
-	implementation 'com.google.firebase:firebase-admin:6.11.0'
-	//implementation 'com.github.alperkurtul:spring-boot-starter-firebase-realtime-database:1.0.5.RELEASE'
 }
 
 tasks.named('test') {
