@@ -1,17 +1,10 @@
 package com.umc.pol.domain.story.controller;
 
-import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
-import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
+import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.service.StoryService;
 import com.umc.pol.global.response.ResponseService;
 import com.umc.pol.global.response.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,4 +39,15 @@ public class StoryController {
         return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
     }
 
+    /*// 스토리 상세 페이지 (story 표지 + qna 목록)
+    @GetMapping("/{storyId}")
+    public SingleResponse<StoryCoverDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
+        return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
+    }*/
+
+    // 스토리 상세 페이지 (story 표지 + qna 목록)
+    @GetMapping("/{storyId}")
+    public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
+        return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
+    }
 }
