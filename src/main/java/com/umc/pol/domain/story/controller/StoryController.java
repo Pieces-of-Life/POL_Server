@@ -65,4 +65,11 @@ public class StoryController {
     return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
   }
 
+  @DeleteMapping("/{storyId}")
+  @Operation(summary = "이야기 삭제 API", description = "")
+  public SingleResponse<String> deleteStory(@PathVariable long storyId) {
+
+    return responseService.getSingleResponse(storyService.deleteStory(storyId));
+  }
+
 }
