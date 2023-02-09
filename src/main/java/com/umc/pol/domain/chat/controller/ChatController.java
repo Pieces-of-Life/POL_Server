@@ -24,16 +24,42 @@ public class ChatController {
         return chatService.createChatroom(chatroomId, chat);
     }
 
-    // 채팅방 id로
     @GetMapping("")
-    public List<Object> getChatroom(@RequestParam String chatroomId) throws InterruptedException, ExecutionException {
+    public List<Chat> getChatroom(@RequestParam String chatroomId) throws InterruptedException, ExecutionException {
 //        return chatService.getChatroom(chatroomId);
         return chatService.getChats(chatroomId);
     }
 
-    @GetMapping("/xx")
-    public List<Object> xx() throws InterruptedException, ExecutionException {
-//        return chatService.getChatroom(chatroomId);
-        return chatService.xx();
+    //////////
+
+    // 모든 채팅방의 data 나옴
+    @GetMapping("/all")
+    public List<Object> all() throws InterruptedException, ExecutionException {
+        return chatService.all();
+    }
+
+    // 모든 채팅방 이름 가져오기
+    @GetMapping("/lists")
+    public List<Object> getAllChatroomName() throws InterruptedException, ExecutionException {
+        return chatService.getAllChatroomName();
+    }
+
+    // 특정 채팅방 데이터 가져오기
+    @GetMapping("/{chatroomId}")
+    public Object getChatroomDetail(@PathVariable("chatroomId") String chatroomId) throws Exception {
+        return chatService.getChatroomDetail(chatroomId);
+    }
+
+    // 특정 채팅방 채팅 컬렉션 가져오기
+    // http://localhost:8080/chat/chatroom1_1/chats
+    @GetMapping("/{chatroomId}/chats")
+    public Object getChatroomChats(@PathVariable("chatroomId") String chatroomId) throws Exception {
+        return chatService.getChatroomChats(chatroomId);
+    }
+
+    // 채팅 보내기
+    @PostMapping("/send/")
+    public void sendChat(@RequestParam String chatroomId, @RequestParam String senderId, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
+        chatService.sendChat(chatroomId, senderId, chat);
     }
 }

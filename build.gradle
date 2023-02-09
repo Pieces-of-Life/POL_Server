@@ -53,8 +53,8 @@ dependencies {
 
 	// firebase
 	implementation 'com.google.firebase:firebase-admin:6.11.0'
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp-starter-data-firestore
-	//implementation 'org.springframework.cloud:spring-cloud-gcp-starter-data-firestore:1.2.1.RELEASE'
+//	implementation 'org.springframework.cloud:spring-cloud-gcp-data-firestore:1.2.1.RELEASE'
+//	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-data-firestore:1.2.1.RELEASE'
 
 }
 
