@@ -30,4 +30,10 @@ public class ChatController {
 //        return chatService.getChatroom(chatroomId);
         return chatService.getChats(chatroomId);
     }
+
+    @GetMapping("/xx")
+    public List<Object> xx() throws InterruptedException, ExecutionException {
+//        return chatService.getChatroom(chatroomId);
+        return chatService.xx();
+    }
 }

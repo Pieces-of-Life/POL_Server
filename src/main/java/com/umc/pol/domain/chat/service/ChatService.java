@@ -22,11 +22,12 @@ public class ChatService {
     }
 
     public List<Object> getChatroom(String chatroomId) throws ExecutionException, InterruptedException {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
+        Firestore db = FirestoreClient.getFirestore();
         String path = "chatroom" + chatroomId;
-        CollectionReference documentReference = dbFirestore.collection(path);
+        CollectionReference documentReference = db.collection(path);
         ApiFuture<QuerySnapshot> future = documentReference.get();
         QuerySnapshot document = future.get();
+
         return document.toObjects(Object.class);
     }
 
@@ -40,5 +41,15 @@ public class ChatService {
             list.add(document.toObject(Object.class));
         }
         return list;
+    }
+
+    public List<Object> xx() throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        String path = "chatrooms";
+        CollectionReference documentReference = dbFirestore.collection(path);
+        ApiFuture<QuerySnapshot> future = documentReference.get();
+        QuerySnapshot document = future.get();
+
+        return document.toObjects(Object.class);
     }
 }
