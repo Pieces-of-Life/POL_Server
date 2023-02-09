@@ -1,10 +1,13 @@
 package com.umc.pol.domain.user.entity;
 
 
+import com.umc.pol.domain.story.entity.Like;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -13,7 +16,7 @@ public class User {
 
     @Id
     @Column
-    private long id;
+    private Long id;
 
     @Column
     private String password;
@@ -33,13 +36,17 @@ public class User {
     @Column(name = "profile_img")
     private String profileImg;
 
+    @OneToMany(mappedBy = "user")
+    private List<Like> likes = new ArrayList<>();
+
     @Builder
-    public User(long id, String password, String nickname, long score, long level, String profileImg) {
+    public User(Long id, String password, String nickname, long score, long level, String profileImg, List<Like> likes) {
         this.id = id;
         this.password = password;
         this.nickname = nickname;
         this.score = score;
         this.level = level;
         this.profileImg = profileImg;
+        this.likes = likes;
     }
 }
