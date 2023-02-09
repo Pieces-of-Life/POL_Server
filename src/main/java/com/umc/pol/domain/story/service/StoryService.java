@@ -53,12 +53,12 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-        story.changeIsMain(!requestDto.getIsPicked());
+    story.changeIsMain(!requestDto.getIsMain());
 
 
-        return PatchMainStatusResponseDto.builder()
-                .isPicked(!requestDto.getIsPicked())
-                .build();
+    return PatchMainStatusResponseDto.builder()
+            .isMain(!requestDto.getIsMain())
+            .build();
     }
 
     // 전체 스토리 조회
@@ -74,6 +74,7 @@ public class StoryService {
     public List<Like> getAllLike(){
         return likeRepository.findAll();
     }
+
 
 
 }
