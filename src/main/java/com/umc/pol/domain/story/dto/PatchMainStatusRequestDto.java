@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class PatchMainStatusRequestDto {
-    Boolean isPicked;
+    Boolean isMain;
 }
