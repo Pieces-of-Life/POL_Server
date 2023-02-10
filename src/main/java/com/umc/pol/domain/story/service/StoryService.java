@@ -98,17 +98,20 @@ public class StoryService {
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
 
         }else{
+            boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
 
-            User user =  userRepository.findById(userId)
-                                         .orElseThrow(() -> new IllegalArgumentException("no User"));
+            if(!exist) {
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new IllegalArgumentException("no User"));
 
-            Like newLike = Like.builder()
-                               .story(story)
-                                .user(user)
-                                .build();
-
-            likeRepository.save(newLike);
+                likeRepository.save(Like.builder()
+                        .story(story)
+                        .user(user)
+                        .build()
+                );
+            }
             status = true;
+
         }
 
         story.changeLikeCnt(status);

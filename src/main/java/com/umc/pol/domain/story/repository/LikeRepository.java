@@ -10,4 +10,6 @@ import java.util.List;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     void deleteByStoryIdAndUserId(long storyId, long userId);
     List<Like> findByUserId(Long userId);
+
+    boolean existsByUserIdAndStoryId(Long userId, long storyId);
 }
