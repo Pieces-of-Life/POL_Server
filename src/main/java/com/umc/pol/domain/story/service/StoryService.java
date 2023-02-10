@@ -1,38 +1,46 @@
 package com.umc.pol.domain.story.service;
 
+import com.umc.pol.domain.story.convert.QnaConverter;
+import com.umc.pol.domain.story.convert.StoryTagConverter;
+import com.umc.pol.domain.story.dto.request.PostStoryRequest;
 import com.umc.pol.domain.story.dto.response.GetStoryResponse;
+import com.umc.pol.domain.story.dto.response.PostStoryResponse;
 import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
 import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
 import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
 import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
 import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
 import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
-import com.umc.pol.domain.story.dto.*;
-import com.umc.pol.domain.story.entity.Like;
+import com.umc.pol.domain.story.entity.Qna;
 import com.umc.pol.domain.story.entity.Story;
+import com.umc.pol.domain.story.entity.StoryTag;
 import com.umc.pol.domain.story.repository.StoryRepository;
-import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
 
+import com.umc.pol.domain.user.entity.User;
+import com.umc.pol.domain.user.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StoryService {
 
     private final StoryRepository storyRepository;
+    private final UserRepository userRepository;
     private final StoryTagRepository storyTagRepository;
     private final QnaRepository qnaRepository;
-    private final LikeRepository likeRepository;
+
+    private final StoryTagConverter storyTagConverter;
+    private final QnaConverter qnaConverter;
 
     public List<GetStoryResponse> getStoryList(Pageable pageable, Long cursorId) {
         List<GetStoryResponse> storyList = storyRepository.findStory(pageable, cursorId)
@@ -48,6 +56,41 @@ public class StoryService {
             .collect(Collectors.toList());
 
         return storyList;
+    }
+
+    @Transactional
+    public PostStoryResponse postStory(PostStoryRequest postStoryReq, String userId) {
+
+        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow();
+
+        Story story = storyRepository.save(Story.builder()
+          .title(postStoryReq.getTitle())
+          .description(postStoryReq.getDescription())
+          .color(postStoryReq.getColor())
+          .user(user)
+          .build());
+
+
+        List<StoryTag> storyTagList = postStoryReq.getStoryTagList()
+          .stream()
+          .map(storyTagConverter::toEntity)
+          .collect(Collectors.toList());
+
+        storyTagList.forEach(storyTag -> storyTag.setStory(story));
+
+        storyTagRepository.saveAll(storyTagList);
+
+
+        List<Qna> qnaList = postStoryReq.getQnaList()
+          .stream()
+          .map(qnaConverter::toEntity)
+          .collect(Collectors.toList());
+
+        qnaList.forEach(qna -> qna.setStory(story));
+
+        qnaRepository.saveAll(qnaList);
+
+        return PostStoryResponse.builder().user(user).build();
     }
 
     @Transactional
