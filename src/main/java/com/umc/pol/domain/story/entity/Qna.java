@@ -1,8 +1,6 @@
 package com.umc.pol.domain.story.entity;
 
 import com.umc.pol.global.entity.Tag;
-
-import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -13,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "story")
-public class Qna extends BaseEntity {
+@Table(name = "qna")
+public class Qna {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +38,11 @@ public class Qna extends BaseEntity {
 
   @Builder
   public Qna (
-    Long id,
-    Story story,
-    Tag tag,
-    String question,
-    String answer
+          Long id,
+          Story story,
+          Tag tag,
+          String question,
+          String answer
   ){
     this.id = id;
     this.story = story;

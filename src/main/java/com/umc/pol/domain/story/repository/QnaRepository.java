@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface QnaRepository extends JpaRepository<Qna, Long> {
-    List<Qna> findByStory(Story story);
+    List<Qna> findAllByStory(Story story);
 }
