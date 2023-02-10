@@ -2,7 +2,6 @@ package com.umc.pol.domain.story.entity;
 
 import com.umc.pol.global.entity.Tag;
 
-import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "story_tag")
-public class StoryTag extends BaseEntity {
+public class StoryTag {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +44,10 @@ public class StoryTag extends BaseEntity {
     this.story = story;
     this.tag = tag;
     this.content = content;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
   }
 
 }
