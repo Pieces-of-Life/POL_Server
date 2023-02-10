@@ -28,7 +28,7 @@ public class ResponseStoryDto {
         this.id = story.getId();
         this.title = story.getTitle();
         this.description = story.getDescription();
-        this.date = story.getCreated_at();
+        this.date = story.getCreatedAt();
         this.backgroundColor = story.getColor();
         this.profileImgUrl = story.getUser().getProfileImg();
         this.nickname = story.getUser().getNickname();

@@ -1,6 +1,7 @@
 package com.umc.pol.domain.auth.client;
 
 import com.umc.pol.domain.auth.config.KakaoFeignConfiguration;
+import com.umc.pol.domain.auth.dto.KakaoAccountDto;
 import com.umc.pol.domain.auth.dto.KakaoInfoResponseDto;
 import com.umc.pol.domain.auth.dto.KakaoTokenResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,7 +20,7 @@ public interface KakaoAuthClient {
                                    @RequestParam("grant_type") String grantType);
 
     @PostMapping
-    KakaoInfoResponseDto getInfo(URI baseUrl, @RequestHeader("Authorization") String accessToken);
+    KakaoAccountDto getInfo(URI baseUrl, @RequestHeader("Authorization") String accessToken);
 
 
 }

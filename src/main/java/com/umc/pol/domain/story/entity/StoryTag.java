@@ -21,12 +21,12 @@ public class StoryTag extends BaseEntity {
   private Long id;
 
   @NotNull
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "story_id")
   private Story story;
 
   @NotNull
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "tag_id")
   private Tag tag;
 
