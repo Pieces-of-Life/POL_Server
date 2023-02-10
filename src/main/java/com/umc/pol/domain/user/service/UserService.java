@@ -2,7 +2,8 @@ package com.umc.pol.domain.user.service;
 
 import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Story;
-import com.umc.pol.domain.story.service.StoryService;
+import com.umc.pol.domain.story.repository.LikeRepository;
+import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.user.dto.MypageChatDto;
 import com.umc.pol.domain.user.dto.MypageGetResponseDto;
 import com.umc.pol.domain.user.dto.MypageLikeStoryDto;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -20,10 +22,14 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
-    private final StoryService storyService;
+    private final StoryRepository storyRepository;
+    private final LikeRepository likeRepository;
 
     // 유저 정보 조회
-    public UserInfoGetResponseDto getUserInfo(long userId) {
+    public UserInfoGetResponseDto getUserInfo(HttpServletRequest request) {
+
+        Long userId = (Long) request.getAttribute("id");
+
         User userInfo = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
 
@@ -40,12 +46,15 @@ public class UserService {
     }
 
     // 마이페이지 조회
-    public MypageGetResponseDto getMypageInfo(Long userId) {
+    public MypageGetResponseDto getMypageInfo(HttpServletRequest request) {
+
+        Long userId = (Long) request.getAttribute("id");
+
         User userInfo = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
 
-        List<Story> allStoryData = storyService.getAllStory();
-        List<Like> userLikeData = storyService.getStoryByUserLike(userId);
+        List<Story> allStoryData = storyRepository.findAll();
+        List<Like> userLikeData = likeRepository.findByUserId(userId);
         List<MypageLikeStoryDto> mypageLikeStoryDtoList = new ArrayList<MypageLikeStoryDto>();
 
         // 사용자가 좋아요 한 스토리 리스트 조회하기
@@ -62,7 +71,7 @@ public class UserService {
                             .title(storyData.getTitle())
                             .description(storyData.getDescription())
                             .color(storyData.getColor())
-                            .date(storyData.getCreated_at())
+                            .date(storyData.getCreatedAt())
                             .userId(userData.getId())
                             .profileImgUrl(userData.getProfileImg())
                             .nickname(userData.getNickname())
