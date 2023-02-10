@@ -11,6 +11,10 @@ import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.StoryRepository;
+import com.umc.pol.domain.story.repository.LikeRepository;
+import com.umc.pol.domain.story.repository.QnaRepository;
+import com.umc.pol.domain.story.repository.StoryTagRepository;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
