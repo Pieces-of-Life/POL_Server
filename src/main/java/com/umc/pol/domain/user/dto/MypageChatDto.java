@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString
 public class MypageChatDto {
     private Long id;
     private String nickname;

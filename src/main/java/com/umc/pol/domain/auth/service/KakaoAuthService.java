@@ -1,7 +1,12 @@
 package com.umc.pol.domain.auth.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.umc.pol.domain.auth.client.KakaoAuthClient;
+import com.umc.pol.domain.auth.config.jwt.JwtProperties;
+import com.umc.pol.domain.auth.dto.KakaoAccountDto;
 import com.umc.pol.domain.auth.dto.KakaoInfoResponseDto;
+import com.umc.pol.domain.auth.dto.KakaoJwtResponseDto;
 import com.umc.pol.domain.auth.dto.KakaoTokenResponseDto;
 import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.domain.user.repository.UserRepository;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -38,33 +44,35 @@ public class KakaoAuthService {
 
 
     //** 전체 로직 **//
-    public KakaoInfoResponseDto KakaoLogin(final String code) {
+    public KakaoJwtResponseDto KakaoLogin(String accessToken) {
         // 엑세스 토큰 요청
-        final KakaoTokenResponseDto accessToken = getAccessToken(code);
+        //final KakaoTokenResponseDto accessToken = getAccessToken(code);
 
         // 사용자 정보 가져오기
-        KakaoInfoResponseDto kakaoUserInfo = getInfo(accessToken);
+        KakaoAccountDto kakaoUserInfo = getInfo(accessToken);
 
         // 가입 안한 경우 회원가입
         User userInfo = createUserInfoIfNeed(kakaoUserInfo);
 
-        // 가입한 경우 (로그인 처리)
-        Authentication authentication = loginUser(userInfo);
+        // jwt 추가
+        String jwtToken = createToken(userInfo);
 
-        return kakaoUserInfo;
+        return KakaoJwtResponseDto.builder()
+                .accessToken(jwtToken)
+                .build();
     }
 
 
     // 사용자 정보 가져오기
-    public KakaoInfoResponseDto getInfo(KakaoTokenResponseDto accessToken) {
-        KakaoInfoResponseDto userInfo = null;
+    public KakaoAccountDto getInfo(String accessToken) {
+        KakaoAccountDto userInfo = null;
         try {
-            userInfo = client.getInfo(new URI("https://kapi.kakao.com/v2/user/me"), accessToken.getTokenType() + " " + accessToken.getAccessToken());
+            userInfo = client.getInfo(new URI("https://kapi.kakao.com/v2/user/me"), "Bearer " + accessToken);
         } catch (Exception e) {
             System.out.println("error..." + e);
-            return KakaoInfoResponseDto.fail();
+            return KakaoAccountDto.fail();
         }
-
+        System.out.println("user Info -----" + userInfo.getKakaoAccount().toString());
         return userInfo;
     }
 
@@ -80,26 +88,42 @@ public class KakaoAuthService {
 
 
     // 회원가입 (필요한 경우)
-    public User createUserInfoIfNeed(KakaoInfoResponseDto userInfo) {
-        Long userId = userInfo.getKakaoAccountDto().getId();
-        String nickname = userInfo.getKakaoAccountDto().getKakaoAccount().getProfile().getNickname();
-        String profileImageUrl = userInfo.getKakaoAccountDto().getKakaoAccount().getProfile().getProfileImageUrl();
+    public User createUserInfoIfNeed(KakaoAccountDto userInfo) {
+        Long kakaoId = userInfo.getId();
+        String nickname = userInfo.getKakaoAccount().getProfile().getNickname();
+        String profileImageUrl = userInfo.getKakaoAccount().getProfile().getProfileImageUrl();
+        String email = userInfo.getKakaoAccount().getEmail();
 
-        User kakaoUser = userRepository.findById(userId).orElse(null);
+        User kakaoUser = userRepository.findByKakaoId(kakaoId);
 
         if (kakaoUser == null) {
             String password = UUID.randomUUID().toString();
             String encodedPassword = passwordEncoder.encode(password);
+
             User newUser = User.builder()
-                    .id(userId)
+                    .kakaoId(kakaoId)
                     .nickname(nickname)
                     .profileImg(profileImageUrl)
                     .password(encodedPassword)
+                    .email(email)
                     .build();
 
             return userRepository.save(newUser);
         }
+
         return kakaoUser;
+    }
+
+
+    public String createToken(User kakaoUser){
+        //JWT 생성 후 헤더에 추가해서 보내주기
+        String jwtToken = JWT.create()
+                .withSubject(kakaoUser.getNickname())
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", kakaoUser.getId())
+                .withClaim("nickname", kakaoUser.getNickname())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+        return jwtToken;
     }
 
     // 자동로그인

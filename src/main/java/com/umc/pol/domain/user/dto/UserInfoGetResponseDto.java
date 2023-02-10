@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
 public class UserInfoGetResponseDto {
     private String profileImgUrl;
     private String nickname;
