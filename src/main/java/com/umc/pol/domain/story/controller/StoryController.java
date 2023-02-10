@@ -36,6 +36,12 @@ public class StoryController {
     return responseService.getListResponse(storyService.getStoryList(pageable, cursorId));
   }
 
+  @GetMapping("/main")
+  @Operation(summary = "사용자 대표 이야기 목록 조회 API", description = "")
+  public ListResponse<GetStoryResponse> getUserMainStoryList(@RequestParam Long cursorId, Pageable pageable, Long userId) {
+
+    return responseService.getListResponse(storyService.getUserMainStoryList(pageable, cursorId, userId));
+  }
   @Operation(summary = "표지색 설정", description = "이야기의 배경 색을 지정합니다.")
   @PatchMapping("/{storyId}/color")
   public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(@PathVariable long storyId,

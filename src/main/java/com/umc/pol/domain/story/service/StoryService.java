@@ -42,6 +42,14 @@ public class StoryService {
         return storyList;
     }
 
+    public List<GetStoryResponse> getUserMainStoryList(Pageable pageable, Long cursorId, Long userId) {
+        List<GetStoryResponse> storyList = storyRepository.findUserMainStory(pageable, cursorId, userId)
+            .stream().map(GetStoryResponse::new)
+            .collect(Collectors.toList());
+
+        return storyList;
+    }
+
     @Transactional
     public PatchBackgroundColorResponseDto patchBackgroundColor(long storyId,
                                                                 PatchBackgroundColorRequestDto requestDto) {

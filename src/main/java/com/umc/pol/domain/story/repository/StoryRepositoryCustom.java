@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface StoryRepositoryCustom {
   Page<Story> findStory(Pageable pageable, Long cursorId);
+  Page<Story> findUserMainStory(Pageable pageable, Long cursorId, Long userId);
 }
