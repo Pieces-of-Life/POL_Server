@@ -1,13 +1,24 @@
 package com.umc.pol.domain.story.service;
 
+import com.umc.pol.domain.story.dto.response.GetStoryResponse;
+import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
+import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
+import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
+import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
+import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
 import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Story;
+import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
-import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +33,14 @@ public class StoryService {
     private final StoryTagRepository storyTagRepository;
     private final QnaRepository qnaRepository;
     private final LikeRepository likeRepository;
+
+    public List<GetStoryResponse> getStoryList(Pageable pageable, Long cursorId) {
+        List<GetStoryResponse> storyList = storyRepository.findStory(pageable, cursorId)
+            .stream().map(GetStoryResponse::new)
+            .collect(Collectors.toList());
+
+        return storyList;
+    }
 
     @Transactional
     public PatchBackgroundColorResponseDto patchBackgroundColor(long storyId,
@@ -53,12 +72,12 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-        story.changeIsMain(!requestDto.getIsPicked());
+    story.changeIsMain(!requestDto.getIsMain());
 
 
-        return PatchMainStatusResponseDto.builder()
-                .isPicked(!requestDto.getIsPicked())
-                .build();
+    return PatchMainStatusResponseDto.builder()
+            .isMain(!requestDto.getIsMain())
+            .build();
     }
 
     // 전체 스토리 조회
@@ -74,6 +93,7 @@ public class StoryService {
     public List<Like> getAllLike(){
         return likeRepository.findAll();
     }
+
 
 
 }

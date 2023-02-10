@@ -69,7 +69,7 @@ public class UserService {
                             .title(storyData.getTitle())
                             .description(storyData.getDescription())
                             .color(storyData.getColor())
-                            .date(storyData.getCreated_at())
+                            .date(storyData.getCreatedAt())
                             .userId(userData.getId())
                             .profileImgUrl(userData.getProfileImg())
                             .nickname(userData.getNickname())
