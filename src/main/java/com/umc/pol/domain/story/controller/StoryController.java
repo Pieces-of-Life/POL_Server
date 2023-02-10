@@ -1,18 +1,15 @@
 package com.umc.pol.domain.story.controller;
 
-import com.umc.pol.domain.story.dto.PatchBackgroundColorRequestDto;
-import com.umc.pol.domain.story.dto.PatchBackgroundColorResponseDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchOpenStatusResponseDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusRequestDto;
-import com.umc.pol.domain.story.dto.PatchMainStatusResponseDto;
+import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.service.StoryService;
+import com.umc.pol.global.response.ListResponse;
 import com.umc.pol.global.response.ResponseService;
 import com.umc.pol.global.response.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -45,6 +42,16 @@ public class StoryController {
     public SingleResponse<PatchMainStatusResponseDto> patchMain(@PathVariable long storyId, @RequestBody PatchMainStatusRequestDto requestDto){
 
         return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
+    }
+
+    @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
+    @GetMapping("/filter/{tagId}")
+    public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, @RequestParam long userId, Pageable pageable) {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User userDetails = (User) principal;
+//        long userId = userDetails.getId();
+
+        return responseService.getListResponse(storyService.getFilterStoryPage(userId, tagId, pageable));
     }
 
 }
