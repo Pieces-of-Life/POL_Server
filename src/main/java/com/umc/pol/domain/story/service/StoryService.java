@@ -8,10 +8,14 @@ import com.umc.pol.domain.story.repository.QnaRepository;
 import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +79,35 @@ public class StoryService {
         return likeRepository.findAll();
     }
 
+    // tagId 기준 이야기  필터링
+    public List<ResponseStoryFilterDto> getFilterStoryPage(long userId, long tagId, Pageable pageable) {
+        List<String> setContents = new ArrayList<>();
+        // story의 storyTag.Content를 List로 만들기
+        List<String> contents = setContents;
+        // 반환 리스트
+        List<ResponseStoryFilterDto> dtos = new ArrayList<>();
+
+
+        // userId와 tagId를 기반으로 story 검색
+        List<ResponseStoryDto> stories = storyRepository.getFilterStoryPage(userId, tagId, pageable);
+        stories.forEach(story -> contents.add(story.getTag()));
+
+        // 중복 제거
+        setContents = contents.stream().distinct().collect(Collectors.toList());
+
+
+        // content를 기준으로 story 묶기
+        setContents.forEach(content -> dtos.add(ResponseStoryFilterDto.builder()
+                                                                    .tag(content)
+                                                                    .stories(stories
+                                                                                    .stream()
+                                                                                    .filter(story -> Objects.equals(story.getTag(), content))
+                                                                            .collect(Collectors.toList()))
+                                                                    .build())
+        );
+
+        return dtos;
+    }
 
 
 }
