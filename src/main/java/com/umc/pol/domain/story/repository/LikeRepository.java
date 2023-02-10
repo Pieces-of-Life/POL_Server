@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-
     List<Like> findByUserId(Long userId);
 
     Long countByStory(Story story);
