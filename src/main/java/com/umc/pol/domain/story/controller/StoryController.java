@@ -57,12 +57,12 @@ public class StoryController {
     return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
   }
 
-    @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
-    @GetMapping("/filter/{tagId}")
-    public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
+  @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
+  @GetMapping("/filter/{tagId}")
+  public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
 
 
-        return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
-    }
+      return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
+  }
 
 }

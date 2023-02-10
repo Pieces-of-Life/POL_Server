@@ -1,11 +1,9 @@
 package com.umc.pol.domain.story.repository;
 
+
 import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.umc.pol.domain.story.dto.QResponseStoryDto;
 import com.umc.pol.domain.story.dto.ResponseStoryDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -24,6 +22,7 @@ import static com.umc.pol.domain.user.entity.QUser.user;
 import static com.umc.pol.domain.story.entity.QStoryTag.storyTag;
 
 import java.util.List;
+
 
 @RequiredArgsConstructor
 public class StoryRepositoryImpl implements StoryRepositoryCustom{
@@ -86,5 +85,4 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
         }
 
     }
-
 }
