@@ -96,6 +96,7 @@ public class StoryService {
 
         if (dto.getIsLiked()){
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+
         }else{
 
             User user =  userRepository.findById(userId)
@@ -109,6 +110,8 @@ public class StoryService {
             likeRepository.save(newLike);
             status = true;
         }
+
+        story.changeLikeCnt(status);
 
         return PostLikeResponseDto.builder()
                 .isLiked(status)

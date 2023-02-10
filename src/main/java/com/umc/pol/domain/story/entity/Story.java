@@ -81,4 +81,15 @@ public class Story extends BaseEntity {
     this.isMain = isMain;
   }
 
+  public void changeLikeCnt(boolean isIncrease){
+    if(isIncrease){
+      this.likeCnt += 1;
+    }
+    else{
+      if(this.likeCnt > 0){
+        this.likeCnt -= 1;
+      }
+    }
+  }
+
 }
