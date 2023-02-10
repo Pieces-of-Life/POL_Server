@@ -14,7 +14,6 @@ configurations {
 	}
 }
 
-
 repositories {
 	mavenCentral()
 }
@@ -51,14 +50,18 @@ dependencies {
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:5.0.0"
+
+	// sql log
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+
+	// spring data jpa
+	implementation 'org.springframework.data:spring-data-jpa:2.4.2'
+
 	// firebase
 	implementation 'com.google.firebase:firebase-admin:6.11.0'
-//	implementation 'org.springframework.cloud:spring-cloud-gcp-data-firestore:1.2.1.RELEASE'
-//	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-data-firestore:1.2.1.RELEASE'
-
 }
-
-
 
 tasks.named('test') {
 	useJUnitPlatform()

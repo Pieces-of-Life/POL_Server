@@ -1,6 +1,8 @@
 package com.umc.pol.domain.chat.controller;
 
 import com.umc.pol.domain.chat.dto.Chat;
+import com.umc.pol.domain.chat.dto.Chatroom;
+import com.umc.pol.domain.chat.dto.ChatroomId;
 import com.umc.pol.domain.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +36,7 @@ public class ChatController {
 
     // 모든 채팅방의 data 나옴
     @GetMapping("/all")
-    public List<Object> all() throws InterruptedException, ExecutionException {
+    public List<Chatroom> all() throws InterruptedException, ExecutionException {
         return chatService.all();
     }
 
@@ -58,8 +60,14 @@ public class ChatController {
     }
 
     // 채팅 보내기
-    @PostMapping("/send/")
-    public void sendChat(@RequestParam String chatroomId, @RequestParam String senderId, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
-        chatService.sendChat(chatroomId, senderId, chat);
+    @PostMapping("/send")
+    public void sendChat(@RequestParam Long storyId, @RequestParam String senderId, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
+        chatService.sendChat(storyId, senderId, chat);
+    }
+
+    // 내가 주고받은 채팅방 이름 가져오기
+    @GetMapping("/mychats")
+    public List<ChatroomId> getMyChats() throws Exception {
+        return chatService.getMyChats();
     }
 }

@@ -10,6 +10,9 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +22,7 @@ public class Story extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Long id;
 
   @NotNull
@@ -48,6 +52,9 @@ public class Story extends BaseEntity {
   @ColumnDefault("false")   // insert 문제 발생 시 @Column에서 정의하는 방식으로 변경될 수 있음
   private Boolean is_open;
 
+  @OneToMany(mappedBy = "story")
+  private List<Like> likes = new ArrayList<>();
+
   @Builder
   public Story(
     Long id,
@@ -56,7 +63,8 @@ public class Story extends BaseEntity {
     String description,
     String color,
     Boolean is_main,
-    Boolean is_open
+    Boolean is_open,
+    List<Like> likes
   ){
     this.id = id;
     this.user = user;
@@ -65,6 +73,7 @@ public class Story extends BaseEntity {
     this.color = color;
     this.is_main = is_main;
     this.is_open = is_open;
+    this.likes = likes;
   }
 
   public void updateColor(String color){

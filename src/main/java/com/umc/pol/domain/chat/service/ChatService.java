@@ -4,15 +4,23 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.umc.pol.domain.chat.dto.Chat;
+import com.umc.pol.domain.chat.dto.Chatroom;
+import com.umc.pol.domain.chat.dto.ChatroomId;
 import com.umc.pol.domain.chat.dto.Description;
+import com.umc.pol.domain.story.entity.Story;
+import com.umc.pol.domain.story.repository.StoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
 public class ChatService {
+
+    private final StoryRepository storyRepository;
+
     public String createChatroom(String chatroomId, Chat chat) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         String path = "chatroom" + chatroomId;
@@ -43,14 +51,14 @@ public class ChatService {
     }
 
     // 모든 채팅방의 data 나옴
-    public List<Object> all() throws ExecutionException, InterruptedException {
+    public List<Chatroom> all() throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         String path = "chatrooms";
         CollectionReference documentReference = dbFirestore.collection(path);
         ApiFuture<QuerySnapshot> future = documentReference.get();
         QuerySnapshot document = future.get();
 
-        return document.toObjects(Object.class);
+        return document.toObjects(Chatroom.class);
     }
 
     // 모든 채팅방 이름 가져오기
@@ -93,27 +101,50 @@ public class ChatService {
 
     // 채팅 보내기
     // https://cloud.google.com/firestore/docs/samples/firestore-data-set-from-map-nested?hl=ko
-    public void sendChat(String chatroomId, String senderId, Chat chat) throws ExecutionException, InterruptedException {
+    public void sendChat(Long storyId, String senderId, Chat chat) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
 
         String path = "chatrooms";
-        String childPath = "chatroom" + chatroomId + "_" + senderId;
+        String childPath = "chatroom" + storyId + "_" + senderId;
+
+        Story story = storyRepository.findById(storyId).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 스토리입니다."));
+
+        String WriterId = story.getUser().getId().toString();
+
+        String now = LocalDateTime.now().toString();
 
         // 방 설명 -> 한번만 하면 될텐데
         Description description = new Description();
-        description.setDate(null);
+        description.setDate(now);
+        description.setId(childPath); // 아니면 uuid
         description.setSender(senderId);
-        description.setWriter("99");
+        description.setWriter(WriterId);
         db.collection(path).document(childPath).set(description);
 
 
+
+
+        System.out.println("!!!!" + now.toString());
+
         // 채팅 말풍선 하나 하나
         Map<String, Object> docData = new HashMap<>();
-        docData.put("date", "2022.01.01");
+        docData.put("date", now);
         docData.put("message", chat.getMessage());
         docData.put("userId", chat.getUserId());
 
         ApiFuture<WriteResult> future = db.collection(path).document(childPath).collection("chats").document(chat.getMessage()).set(docData);
         System.out.println("Update time : " + future.get().getUpdateTime());
+    }
+
+    // 내가 주고받은 채팅방 이름 가져오기
+    public List<ChatroomId> getMyChats() throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        String path = "chatrooms";
+        CollectionReference documentReference = dbFirestore.collection(path);
+        ApiFuture<QuerySnapshot> future = documentReference.get();
+        QuerySnapshot document = future.get();
+
+        return document.toObjects(ChatroomId.class);
     }
 }
