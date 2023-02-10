@@ -26,6 +26,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Service
 @RequiredArgsConstructor
@@ -85,14 +87,16 @@ public class StoryService {
     }
 
     @Transactional
-    public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, long userId) {
+    public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, HttpServletRequest request) {
         boolean status = false;
+        Long userId = (Long) request.getAttribute("id");
+
+        Story story = storyRepository.findById(storyId)
+                                        .orElseThrow(() -> new IllegalArgumentException("no Story"));
+
         if (dto.getIsLiked()){
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
         }else{
-
-            Story story = storyRepository.findById(storyId)
-                                            .orElseThrow(() -> new IllegalArgumentException("no Story"));
 
             User user =  userRepository.findById(userId)
                                          .orElseThrow(() -> new IllegalArgumentException("no User"));

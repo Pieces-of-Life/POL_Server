@@ -21,7 +21,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.web.bind.annotation.*;
 
-
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -66,12 +66,9 @@ public class StoryController {
 
     @Operation(summary = "이야기 좋아요", description = "이야기에 좋아요를 남깁니다. (토큰 설정 전까지 userId를 RequestParam으로 받음.)")
     @PostMapping("/{storyId}/like")
-    public SingleResponse<PostLikeResponseDto> postLike(@PathVariable long storyId, @RequestBody PostLikeRequestDto dto, @RequestParam("userId") long userId){
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        User userDetails = (User) principal;
-//        long userId = userDetails.getId();
+    public SingleResponse<PostLikeResponseDto> postLike(@PathVariable long storyId, @RequestBody PostLikeRequestDto dto, HttpServletRequest request){
 
-        return responseService.getSingleResponse(storyService.postLike(storyId, dto, userId));
+        return responseService.getSingleResponse(storyService.postLike(storyId, dto, request));
     }
 
 }
