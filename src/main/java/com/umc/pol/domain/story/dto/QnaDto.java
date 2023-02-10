@@ -12,13 +12,13 @@ public class QnaDto {
 
     private Long id;
     private String question;
-    private int tagCategoryId;
+    private Long tagCategoryId;
     private String answer;
 
     @Builder
     public QnaDto(Long id,
                   String question,
-                  int tagCategoryId,
+                  Long tagCategoryId,
                   String answer) {
         this.id = id;
         this.question = question;

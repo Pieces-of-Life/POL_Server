@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class PatchMainStatusResponseDto {
-    Boolean isPicked;
+    Boolean isMain;
 
     @Builder
-    public PatchMainStatusResponseDto(boolean isPicked) {
-        this.isPicked = isPicked;
+    public PatchMainStatusResponseDto(boolean isMain) {
+        this.isMain = isMain;
     }
 
 }

@@ -14,10 +14,10 @@ public class StorySpecDto {
 
     private
     StoryCoverDto story;
-    private List<Qna> qnaList;
+    private List<QnaDto> qnaList;
 
     @Builder
-    public StorySpecDto(StoryCoverDto story, List<Qna> qnaList) {
+    public StorySpecDto(StoryCoverDto story, List<QnaDto> qnaList) {
         this.story = story;
         this.qnaList = qnaList;
     }

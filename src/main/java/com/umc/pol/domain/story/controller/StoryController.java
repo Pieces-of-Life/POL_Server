@@ -17,6 +17,7 @@ public class StoryController {
     private final StoryService storyService;
     private final ResponseService responseService;
 
+    @Operation(summary = "표지색 설정", description = "이야기의 배경 색을 지정합니다.")
     @PatchMapping("/{storyId}/color")
     public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(@PathVariable long storyId,
                                                                                 @RequestBody PatchBackgroundColorRequestDto requestDto) {
@@ -39,13 +40,9 @@ public class StoryController {
         return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
     }
 
-    /*// 스토리 상세 페이지 (story 표지 + qna 목록)
-    @GetMapping("/{storyId}")
-    public SingleResponse<StoryCoverDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
-        return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
-    }*/
-
     // 스토리 상세 페이지 (story 표지 + qna 목록)
+    // 아직 ui 자리잡기 용 ->
+    @Operation(summary = "스토리 상세 페이지 조회", description = "스토리 상세 페이지 조회 (story 표지 + qna 목록)")
     @GetMapping("/{storyId}")
     public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
         return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));

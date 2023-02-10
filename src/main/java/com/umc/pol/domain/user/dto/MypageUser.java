@@ -1,23 +1,18 @@
 package com.umc.pol.domain.user.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class UserInfoGetResponseDto {
+public class MypageUser {
     private String profileImgUrl;
     private String nickname;
-    private Long score;
-    private Long level;
 
     @Builder
-    public UserInfoGetResponseDto(String profileImgUrl, String nickname, Long score, Long level) {
+    public MypageUser(String profileImgUrl, String nickname) {
         this.profileImgUrl = profileImgUrl;
         this.nickname = nickname;
-        this.score = score;
-        this.level = level;
     }
 }
