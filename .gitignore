@@ -201,9 +201,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# config properties
-application-API-KEY.yml
-
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,java
 
 ### VS Code ###
