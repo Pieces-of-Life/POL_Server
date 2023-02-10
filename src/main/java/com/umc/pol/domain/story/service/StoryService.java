@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -98,7 +99,9 @@ public class StoryService {
     }
 
     // tagId 기준 이야기  필터링
-    public List<ResponseStoryFilterDto> getFilterStoryPage(long userId, long tagId, Pageable pageable) {
+    public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
+        Long userId = (Long) request.getAttribute("id");
+
         List<String> setContents = new ArrayList<>();
         // story의 storyTag.Content를 List로 만들기
         List<String> contents = setContents;

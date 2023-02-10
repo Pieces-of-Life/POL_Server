@@ -16,6 +16,7 @@ public class ResponseStoryDto {
     private String description;
     private LocalDateTime date;
     private String backgroundColor;
+    private Long userId;
     private String profileImgUrl;
     private String nickname;
 
@@ -30,6 +31,7 @@ public class ResponseStoryDto {
         this.description = story.getDescription();
         this.date = story.getCreatedAt();
         this.backgroundColor = story.getColor();
+        this.userId = story.getUser().getId();
         this.profileImgUrl = story.getUser().getProfileImg();
         this.nickname = story.getUser().getNickname();
         this.tag = tag;
