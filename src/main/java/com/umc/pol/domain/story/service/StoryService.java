@@ -86,22 +86,12 @@ public class StoryService {
     return PatchMainStatusResponseDto.builder()
             .isMain(!requestDto.getIsMain())
             .build();
-    }
+  }
 
-    // 전체 스토리 조회
-    public List<Story> getAllStory() {
-        return storyRepository.findAll();
-    }
+  public String deleteStory(Long storyId) {
+    storyRepository.deleteById(storyId);
 
-    // 사용자가 좋아요한 스토리 반환
-    public List<Like> getStoryByUserLike(Long userId) {
-        return likeRepository.findByUserId(userId);
-    }
-
-    public List<Like> getAllLike(){
-        return likeRepository.findAll();
-    }
-
-
-
+    return "Story deleted.";
+  }
+  
 }
