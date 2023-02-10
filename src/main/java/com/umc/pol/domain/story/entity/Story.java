@@ -23,7 +23,7 @@ public class Story extends BaseEntity {
   private Long id;
 
   @NotNull
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
