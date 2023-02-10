@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class KakaoAccount {
     private Profile profile;
+    private String email;
 }

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -23,7 +24,10 @@ public class UserService {
     private final StoryService storyService;
 
     // 유저 정보 조회
-    public UserInfoGetResponseDto getUserInfo(long userId) {
+    public UserInfoGetResponseDto getUserInfo(HttpServletRequest request) {
+
+        Long userId = (Long) request.getAttribute("id");
+
         User userInfo = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
 
@@ -40,7 +44,10 @@ public class UserService {
     }
 
     // 마이페이지 조회
-    public MypageGetResponseDto getMypageInfo(Long userId) {
+    public MypageGetResponseDto getMypageInfo(HttpServletRequest request) {
+
+        Long userId = (Long) request.getAttribute("id");
+
         User userInfo = userRepository.findById(userId).orElseThrow(() ->
                 new IllegalArgumentException("유저 정보가 없습니다"));
 
@@ -62,7 +69,7 @@ public class UserService {
                             .title(storyData.getTitle())
                             .description(storyData.getDescription())
                             .color(storyData.getColor())
-                            .date(storyData.getCreated_at())
+                            .date(storyData.getCreatedAt())
                             .userId(userData.getId())
                             .profileImgUrl(userData.getProfileImg())
                             .nickname(userData.getNickname())
