@@ -5,14 +5,12 @@ import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
+@DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "story")
 public class Story extends BaseEntity {
