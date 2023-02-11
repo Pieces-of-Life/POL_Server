@@ -1,6 +1,8 @@
 package com.umc.pol.domain.story.entity;
 
 import com.umc.pol.global.entity.Tag;
+
+import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -38,17 +40,21 @@ public class Qna {
 
   @Builder
   public Qna (
-          Long id,
-          Story story,
-          Tag tag,
-          String question,
-          String answer
+    Long id,
+    Story story,
+    Tag tag,
+    String question,
+    String answer
   ){
     this.id = id;
     this.story = story;
     this.tag = tag;
     this.question = question;
     this.answer = answer;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
   }
 
 }

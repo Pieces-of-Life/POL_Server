@@ -1,11 +1,10 @@
 package com.umc.pol.domain.story.dto;
 
-import com.umc.pol.domain.story.entity.Qna;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import com.umc.pol.domain.story.dto.request.QnaDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
