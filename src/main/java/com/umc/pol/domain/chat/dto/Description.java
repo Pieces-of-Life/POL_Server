@@ -16,6 +16,6 @@ public class Description {
     private String id;
 //    private Timestamp date;
     private String date;
-    private String sender;
+    private Long sender;
     private String writer;
 }
