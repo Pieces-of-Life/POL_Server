@@ -1,6 +1,7 @@
 package com.umc.pol.domain.story.controller;
 
 import com.umc.pol.domain.story.dto.*;
+
 import com.umc.pol.domain.story.dto.request.PostStoryRequest;
 import com.umc.pol.domain.story.dto.response.GetStoryResponse;
 import com.umc.pol.domain.story.dto.response.PostStoryResponse;
@@ -21,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -94,4 +98,14 @@ public class StoryController {
   public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
     return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
   }
+
+  @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
+  @GetMapping("/filter/{tagId}")
+  public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
+
+
+    return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
+  }
+
 }
+

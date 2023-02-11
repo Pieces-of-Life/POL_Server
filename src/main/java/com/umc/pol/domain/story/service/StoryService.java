@@ -25,7 +25,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
 import com.umc.pol.domain.story.dto.request.QnaDto;
+
 
 @Slf4j
 @Service
@@ -177,4 +181,37 @@ public class StoryService {
 
         return storySpec;
     }
+
+    // tagId 기준 이야기  필터링
+    public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
+        Long userId = (Long) request.getAttribute("id");
+
+        List<String> setContents = new ArrayList<>();
+        // story의 storyTag.Content를 List로 만들기
+        List<String> contents = setContents;
+        // 반환 리스트
+        List<ResponseStoryFilterDto> dtos = new ArrayList<>();
+
+
+        // userId와 tagId를 기반으로 story 검색
+        List<ResponseStoryDto> stories = storyRepository.getFilterStoryPage(userId, tagId, pageable);
+        stories.forEach(story -> contents.add(story.getStoryTag()));
+
+        // 중복 제거
+        setContents = contents.stream().distinct().collect(Collectors.toList());
+
+
+        // content를 기준으로 story 묶기
+        setContents.forEach(content -> dtos.add(ResponseStoryFilterDto.builder()
+                                                                    .storyTag(content)
+                                                                    .stories(stories
+                                                                                    .stream()
+                                                                                    .filter(story -> Objects.equals(story.getStoryTag(), content))
+                                                                            .collect(Collectors.toList()))
+                                                                    .build())
+        );
+
+        return dtos;
+    }
+
 }

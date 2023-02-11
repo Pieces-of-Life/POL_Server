@@ -63,7 +63,9 @@ dependencies {
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 
 	// QueryDSL
-	implementation "com.querydsl:querydsl-jpa:5.0.0"
+//	implementation "com.querydsl:querydsl-jpa:5.0.0"
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	// sql log
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
@@ -94,4 +96,3 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
-
