@@ -20,12 +20,12 @@ public class ResponseStoryDto {
     private String profileImgUrl;
     private String nickname;
 
-    private String tag;
+    private String storyTag;
 
 
     @QueryProjection
     @Builder
-    public ResponseStoryDto(Story story, String tag) {
+    public ResponseStoryDto(Story story, String storyTag) {
         this.id = story.getId();
         this.title = story.getTitle();
         this.description = story.getDescription();
@@ -34,6 +34,6 @@ public class ResponseStoryDto {
         this.userId = story.getUser().getId();
         this.profileImgUrl = story.getUser().getProfileImg();
         this.nickname = story.getUser().getNickname();
-        this.tag = tag;
+        this.storyTag = storyTag;
     }
 }

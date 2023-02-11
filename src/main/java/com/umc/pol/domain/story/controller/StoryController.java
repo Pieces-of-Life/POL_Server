@@ -1,26 +1,34 @@
 package com.umc.pol.domain.story.controller;
 
 import com.umc.pol.domain.story.dto.*;
+
+import com.umc.pol.domain.story.dto.request.PostStoryRequest;
 import com.umc.pol.domain.story.dto.response.GetStoryResponse;
+import com.umc.pol.domain.story.dto.response.PostStoryResponse;
+import com.umc.pol.domain.story.entity.Qna;
+import com.umc.pol.domain.story.entity.StoryTag;
 import com.umc.pol.domain.story.service.StoryService;
+import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.global.response.ListResponse;
 import com.umc.pol.global.response.ResponseService;
-
 import com.umc.pol.global.response.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.security.Principal;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/story")
-@SecurityRequirement(name = "Bearer")
 @Tag(name = "Story", description = "이야기 API")
 public class StoryController {
 
@@ -32,6 +40,26 @@ public class StoryController {
   public ListResponse<GetStoryResponse> getStoryList(@RequestParam Long cursorId, Pageable pageable) {
 
     return responseService.getListResponse(storyService.getStoryList(pageable, cursorId));
+  }
+
+  @GetMapping("/main")
+  @Operation(summary = "사용자 대표 이야기 목록 조회 API", description = "")
+  public ListResponse<GetStoryResponse> getUserMainStoryList(@RequestParam Long cursorId, Pageable pageable, Long userId) {
+
+    return responseService.getListResponse(storyService.getUserMainStoryList(pageable, cursorId, userId));
+  }
+
+  @PostMapping("")
+  @Operation(summary = "이야기 생성 API", description = "")
+  public SingleResponse<PostStoryResponse> postStory(
+    @RequestParam String userId,
+
+    @Valid
+    @RequestBody
+      PostStoryRequest postStoryReq
+    ) {
+
+    return responseService.getSingleResponse(storyService.postStory(postStoryReq, userId));
   }
 
   @Operation(summary = "표지색 설정", description = "이야기의 배경 색을 지정합니다.")
@@ -57,12 +85,27 @@ public class StoryController {
     return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
   }
 
+  @DeleteMapping("/{storyId}")
+  @Operation(summary = "이야기 삭제 API", description = "")
+  public SingleResponse<String> deleteStory(@PathVariable long storyId) {
+
+    return responseService.getSingleResponse(storyService.deleteStory(storyId));
+  }
+
+  // 스토리 상세 페이지 (story 표지 + qna 목록)
+  @Operation(summary = "스토리 상세 페이지 조회", description = "스토리 상세 페이지 조회 (story 표지 + qna 목록)")
+  @GetMapping("/{storyId}")
+  public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
+    return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
+  }
+
   @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
   @GetMapping("/filter/{tagId}")
   public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
 
 
-      return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
+    return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
   }
 
 }
+

@@ -8,13 +8,13 @@ import java.util.List;
 
 @Data
 public class ResponseStoryFilterDto {
-    private String tag;
+    private String storyTag;
     private List<ResponseStoryDto> stories;
 
     @QueryProjection
     @Builder
-    public ResponseStoryFilterDto(String tag, List<ResponseStoryDto> stories) {
-        this.tag = tag;
+    public ResponseStoryFilterDto(String storyTag, List<ResponseStoryDto> stories) {
+        this.storyTag = storyTag;
         this.stories = stories;
     }
 }
