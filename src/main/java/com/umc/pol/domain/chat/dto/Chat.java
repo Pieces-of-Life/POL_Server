@@ -12,10 +12,11 @@ import lombok.ToString;
 @ToString
 public class Chat {
 
-    private String userId;
+//    private String date;
+//    private String userId;
     private String message;
 
     // firebase timestamp type
-    private Timestamp createAt;
+    // private Timestamp createAt;
 
 }

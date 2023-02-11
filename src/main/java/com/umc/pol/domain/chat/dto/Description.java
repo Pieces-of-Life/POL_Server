@@ -17,5 +17,5 @@ public class Description {
 //    private Timestamp date;
     private String date;
     private Long sender;
-    private String writer;
+    private Long writer;
 }
