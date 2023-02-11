@@ -48,8 +48,8 @@ public class ChatController {
     // 1. 채팅방 만들기 (토큰 적용)
     // 방 생성 시 이름 : "chatroom" + "이야기id_" + "보내는사람id" = "chatroom1_2"
     @Operation(summary = "채팅방 만들기", description = "방 생성 시 이름 : \"chatroom\" + \"이야기id_\" + \"보내는사람id\" = \"chatroom1_2\"")
-    @PostMapping("/makeroom")
-    public ChatSuccessResponse makeroom(@RequestParam Long storyId, HttpServletRequest request, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
+    @PostMapping("/makeroom/{storyId}")
+    public ChatSuccessResponse makeroom(@PathVariable("storyId") Long storyId, HttpServletRequest request, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
         Long senderId = (Long) request.getAttribute("id");
         chatService.makeroom(storyId, senderId, chat);
 
@@ -64,8 +64,8 @@ public class ChatController {
 
     // 2. 채팅 보내기 (토큰 적용)
     @Operation(summary = "채팅 보내기", description = "chatroomId 예시 : chatroom1_6, RequestBody에 message 넣어야 함.")
-    @PostMapping("/send")
-    public ChatSuccessResponse sendChat(@RequestParam String chatroomId, HttpServletRequest request, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
+    @PostMapping("/send/{chatroomId}")
+    public ChatSuccessResponse sendChat(@PathVariable("chatroomId") String chatroomId, HttpServletRequest request, @RequestBody Chat chat) throws InterruptedException, ExecutionException {
         Long senderId = (Long) request.getAttribute("id");
         chatService.sendChat(chatroomId, senderId, chat);
 

@@ -148,7 +148,7 @@ public class ChatService {
                 .build();
 
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> documentReference = firestore.collection("chatrooms").document(chatroomId).collection("chats").orderBy("date").get();
+        ApiFuture<QuerySnapshot> documentReference = firestore.collection("chatrooms").document(chatroomId).collection("chats").orderBy("date", Query.Direction.DESCENDING).get();
 
         QuerySnapshot document = documentReference.get();
 
