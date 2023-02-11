@@ -90,6 +90,9 @@ public class StoryService {
 
         qnaRepository.saveAll(qnaList);
 
+        Long newScore = user.getScore()+(Long.valueOf(qnaList.size())*10);
+        user.updateScoreAndLevel(newScore, newScore/100);
+
         return PostStoryResponse.builder().user(user).build();
     }
 
