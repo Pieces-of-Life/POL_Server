@@ -59,4 +59,10 @@ public class User {
         this.email = email;
         this.likes = likes;
     }
+
+    public void updateScoreAndLevel(Long score, Long level){
+        this.score = score;
+        this.level = level;
+    }
+
 }
