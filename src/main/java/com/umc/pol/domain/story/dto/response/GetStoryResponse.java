@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetStoryResponse {
 
+  @Schema(description = "이야기 ID")
+  private Long id;
+
   @Schema(description = "이야기 제목")
   private String title;
 
@@ -35,6 +38,7 @@ public class GetStoryResponse {
 
   @Builder
   public GetStoryResponse(Story story) {
+    this.id = story.getId();
     this.title = story.getTitle();
     this.description = story.getDescription();
     this.color = story.getColor();

@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "story")
-public class Qna extends BaseEntity {
+@Table(name = "qna")
+public class Qna {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +51,10 @@ public class Qna extends BaseEntity {
     this.tag = tag;
     this.question = question;
     this.answer = answer;
+  }
+
+  public void setStory(Story story) {
+    this.story = story;
   }
 
 }

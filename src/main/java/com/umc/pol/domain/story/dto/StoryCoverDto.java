@@ -21,14 +21,14 @@ public class StoryCoverDto {
 
     @Builder
     public StoryCoverDto(Long id,
-                         String title,
-                         String description,
-                         LocalDateTime date,
-                         String color,
-                         Long likeCnt,
-                         boolean isLiked,
-                         String profileImgUrl,
-                         String nickname) {
+     String title,
+     String description,
+     LocalDateTime date,
+     String color,
+     Long likeCnt,
+     boolean isLiked,
+     String profileImgUrl,
+     String nickname) {
         this.id = id;
         this.title = title;
         this.description = description;
