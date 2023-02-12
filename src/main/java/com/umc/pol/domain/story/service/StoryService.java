@@ -6,9 +6,11 @@ import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.dto.request.PostStoryRequest;
 import com.umc.pol.domain.story.dto.response.GetStoryResponse;
 import com.umc.pol.domain.story.dto.response.PostStoryResponse;
+import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Qna;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.entity.StoryTag;
+import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
@@ -26,7 +28,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.Objects;
+
 
 import com.umc.pol.domain.story.dto.request.QnaDto;
 
@@ -44,6 +48,8 @@ public class StoryService {
 
     private final StoryTagConverter storyTagConverter;
     private final QnaConverter qnaConverter;
+    private final LikeRepository likeRepository;
+
 
     public List<GetStoryResponse> getStoryList(Pageable pageable, Long cursorId) {
         List<GetStoryResponse> storyList = storyRepository.findStory(pageable, cursorId)
@@ -129,7 +135,7 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-    story.changeIsMain(!requestDto.getIsMain());
+        story.changeIsMain(!requestDto.getIsMain());
 
 
     return PatchMainStatusResponseDto.builder()
@@ -214,4 +220,38 @@ public class StoryService {
         return dtos;
     }
 
+    @Transactional
+    public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, HttpServletRequest request) {
+        boolean status = false;
+        Long userId = (Long) request.getAttribute("id");
+
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("no Story"));
+
+        if (dto.getIsLiked()) {
+            likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+
+        } else {
+            boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
+
+            if (!exist) {
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new IllegalArgumentException("no User"));
+
+                likeRepository.save(Like.builder()
+                        .story(story)
+                        .user(user)
+                        .build()
+                );
+            }
+            status = true;
+
+        }
+
+        story.changeLikeCnt(status);
+
+        return PostLikeResponseDto.builder()
+                .isLiked(status)
+                .build();
+    }
 }
