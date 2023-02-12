@@ -32,7 +32,7 @@ public class StoryController {
   @GetMapping("")
   @Operation(summary = "전체 공개 이야기 목록 조회 API", description = "")
   public ListResponse<GetStoryResponse> getStoryList(
-    @RequestParam (value = "cursorId", required = false) Long cursorId,
+    @RequestParam Long cursorId,
     @RequestParam Pageable pageable
   ) {
 
@@ -43,8 +43,8 @@ public class StoryController {
   @Operation(summary = "사용자 대표 이야기 목록 조회 API", description = "")
   public ListResponse<GetStoryResponse> getUserMainStoryList(
     HttpServletRequest request,
-    @RequestParam (value = "cursorId", required = false) Long cursorId,
-    @RequestParam (value = "cursorId", required = false) Pageable pageable
+    @RequestParam Long cursorId,
+    @RequestParam Pageable pageable
   ) {
 
     return responseService.getListResponse(storyService.getUserMainStoryList(pageable, cursorId, (Long) request.getAttribute("id")));
