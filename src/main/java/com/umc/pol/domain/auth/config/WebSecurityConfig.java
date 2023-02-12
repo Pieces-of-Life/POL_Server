@@ -38,8 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.authorizeRequests()
                 // 회원 관리 URL 전부를 login 없이 허용
-                .antMatchers("/auth/**")
-                .authenticated()
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()

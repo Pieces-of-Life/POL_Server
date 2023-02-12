@@ -29,6 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Objects;
+
+
 import com.umc.pol.domain.story.dto.request.QnaDto;
 
 
@@ -65,9 +68,9 @@ public class StoryService {
     }
 
     @Transactional
-    public PostStoryResponse postStory(PostStoryRequest postStoryReq, String userId) {
+    public PostStoryResponse postStory(PostStoryRequest postStoryReq, Long userId) {
 
-        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
 
         Story story = storyRepository.save(Story.builder()
           .title(postStoryReq.getTitle())
@@ -138,13 +141,13 @@ public class StoryService {
     return PatchMainStatusResponseDto.builder()
             .isMain(!requestDto.getIsMain())
             .build();
-  }
+    }
 
   public String deleteStory(Long storyId) {
     storyRepository.deleteById(storyId);
 
-    return "Story deleted.";
-  }
+        return "Story deleted.";
+    }
 
     // 쪽지 상세 페이지 (story 표지 + qnaList)
     public StorySpecDto getStorySpecPage(long storyId) {
@@ -184,6 +187,39 @@ public class StoryService {
 
         return storySpec;
     }
+
+    // tagId 기준 이야기  필터링
+    public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
+        Long userId = (Long) request.getAttribute("id");
+
+        List<String> setContents = new ArrayList<>();
+        // story의 storyTag.Content를 List로 만들기
+        List<String> contents = setContents;
+        // 반환 리스트
+        List<ResponseStoryFilterDto> dtos = new ArrayList<>();
+
+
+        // userId와 tagId를 기반으로 story 검색
+        List<ResponseStoryDto> stories = storyRepository.getFilterStoryPage(userId, tagId, pageable);
+        stories.forEach(story -> contents.add(story.getStoryTag()));
+
+        // 중복 제거
+        setContents = contents.stream().distinct().collect(Collectors.toList());
+
+
+        // content를 기준으로 story 묶기
+        setContents.forEach(content -> dtos.add(ResponseStoryFilterDto.builder()
+                                                                    .storyTag(content)
+                                                                    .stories(stories
+                                                                                    .stream()
+                                                                                    .filter(story -> Objects.equals(story.getStoryTag(), content))
+                                                                            .collect(Collectors.toList()))
+                                                                    .build())
+        );
+
+        return dtos;
+    }
+
     @Transactional
     public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, HttpServletRequest request) {
         boolean status = false;
@@ -192,13 +228,13 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("no Story"));
 
-        if (dto.getIsLiked()){
+        if (dto.getIsLiked()) {
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
 
-        }else{
+        } else {
             boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
 
-            if(!exist) {
+            if (!exist) {
                 User user = userRepository.findById(userId)
                         .orElseThrow(() -> new IllegalArgumentException("no User"));
 
@@ -218,5 +254,4 @@ public class StoryService {
                 .isLiked(status)
                 .build();
     }
-
 }

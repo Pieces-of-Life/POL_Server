@@ -42,3 +42,10 @@ jasypt:
   encryptor:
     bean: jasyptStringEncryptor
     password: my_jasypt_key
+
+app:
+  firebase-configuration-file: ./serviceaccount.json
+  firebase-bucket: pol-chat.appspot.com
+
+firebase-realtime-database:
+  database-url: https://pol-chat-default-rtdb.firebaseio.com/

@@ -1,6 +1,10 @@
 package com.umc.pol.domain.story.repository;
 
 
+import com.querydsl.jpa.impl.JPAQuery;
+import com.umc.pol.domain.story.dto.QResponseStoryDto;
+import com.umc.pol.domain.story.dto.ResponseStoryDto;
+
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -15,6 +19,10 @@ import org.springframework.data.domain.Sort;
 
 import static com.umc.pol.domain.story.entity.QStory.story;
 import static com.umc.pol.domain.user.entity.QUser.user;
+import static com.umc.pol.domain.story.entity.QStoryTag.storyTag;
+
+import java.util.List;
+
 
 @RequiredArgsConstructor
 public class StoryRepositoryImpl implements StoryRepositoryCustom{
@@ -63,13 +71,33 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
 
         switch (order.getProperty()){
           case "recent":
-            return new OrderSpecifier(direction, story.updatedAt);
+            return new OrderSpecifier(direction, story.createdAt);
           case "like":
             return new OrderSpecifier(direction, story.likeCnt);
         }
       }
     }
-    return new OrderSpecifier(Order.DESC, story.updatedAt);
+    return new OrderSpecifier(Order.DESC, story.createdAt);
   }
 
+    @Override
+    public List<ResponseStoryDto> getFilterStoryPage(long userId, long tagId, Pageable pageable) {
+
+        JPAQuery<ResponseStoryDto> query = queryFactory.select(new QResponseStoryDto(story, storyTag.content))
+                .from(storyTag)
+                .leftJoin(storyTag.story, story)
+                .where(story.user.id.eq(userId))
+                .where(storyTag.tag.id.eq(tagId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        if (tagId == 1) { // tagId가 날짜면 내림차순 정렬
+            return query.orderBy(storyTag.content.desc())
+                    .fetch();
+        }else{ // tagId가 날짜가 아니면 오름차순 정렬
+            return query.orderBy(storyTag.content.asc())
+                    .fetch();
+        }
+
+    }
 }
