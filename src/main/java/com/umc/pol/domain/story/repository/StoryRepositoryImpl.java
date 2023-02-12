@@ -12,6 +12,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.umc.pol.domain.story.entity.Story;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.bouncycastle.jcajce.provider.symmetric.CAST5;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -89,15 +90,24 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
                 .where(story.user.id.eq(userId))
                 .where(storyTag.tag.id.eq(tagId))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(storyFilterSort(pageable));
 
-        if (tagId == 1) { // tagId가 날짜면 내림차순 정렬
-            return query.orderBy(storyTag.content.desc())
-                    .fetch();
-        }else{ // tagId가 날짜가 아니면 오름차순 정렬
-            return query.orderBy(storyTag.content.asc())
-                    .fetch();
-        }
-
+        return query.fetch();
     }
+
+  private OrderSpecifier<?> storyFilterSort(Pageable page){
+    if (!page.getSort().isEmpty()) {
+      for (Sort.Order order : page.getSort()) {
+        Order direction = order.getDirection().isDescending() ? Order.ASC : Order.DESC;
+
+        switch (order.getProperty()){
+          case "year":
+          case "age":
+            return new OrderSpecifier(direction, storyTag.content.castToNum(Integer.class));
+        }
+      }
+    }
+    return new OrderSpecifier(Order.ASC, storyTag.content);
+  }
 }

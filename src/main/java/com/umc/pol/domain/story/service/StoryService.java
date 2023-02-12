@@ -185,7 +185,7 @@ public class StoryService {
     // tagId 기준 이야기  필터링
     public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
         Long userId = (Long) request.getAttribute("id");
-
+        System.out.println("ㅇㅇ:" + userId);
         List<String> setContents = new ArrayList<>();
         // story의 storyTag.Content를 List로 만들기
         List<String> contents = setContents;
