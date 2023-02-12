@@ -129,11 +129,11 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-    story.changeIsMain(!requestDto.getIsMain());
+    story.changeIsMain(requestDto.getIsMain());
 
 
     return PatchMainStatusResponseDto.builder()
-            .isMain(!requestDto.getIsMain())
+            .isMain(requestDto.getIsMain())
             .build();
     }
 
