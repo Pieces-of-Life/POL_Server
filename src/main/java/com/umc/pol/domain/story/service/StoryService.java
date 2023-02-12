@@ -62,9 +62,9 @@ public class StoryService {
     }
 
     @Transactional
-    public PostStoryResponse postStory(PostStoryRequest postStoryReq, String userId) {
+    public PostStoryResponse postStory(PostStoryRequest postStoryReq, Long userId) {
 
-        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
 
         Story story = storyRepository.save(Story.builder()
           .title(postStoryReq.getTitle())
@@ -135,13 +135,13 @@ public class StoryService {
     return PatchMainStatusResponseDto.builder()
             .isMain(!requestDto.getIsMain())
             .build();
-  }
+    }
 
   public String deleteStory(Long storyId) {
     storyRepository.deleteById(storyId);
 
-    return "Story deleted.";
-  }
+        return "Story deleted.";
+    }
 
     // 쪽지 상세 페이지 (story 표지 + qnaList)
     public StorySpecDto getStorySpecPage(long storyId) {

@@ -72,13 +72,13 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
 
         switch (order.getProperty()){
           case "recent":
-            return new OrderSpecifier(direction, story.updatedAt);
+            return new OrderSpecifier(direction, story.createdAt);
           case "like":
             return new OrderSpecifier(direction, story.likeCnt);
         }
       }
     }
-    return new OrderSpecifier(Order.DESC, story.updatedAt);
+    return new OrderSpecifier(Order.DESC, story.createdAt);
   }
 
     @Override
