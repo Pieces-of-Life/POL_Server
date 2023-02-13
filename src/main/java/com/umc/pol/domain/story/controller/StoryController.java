@@ -63,34 +63,61 @@ public class StoryController {
 
   @Operation(summary = "표지색 설정", description = "이야기의 배경 색을 지정합니다.")
   @PatchMapping("/{storyId}/color")
-  public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(@PathVariable long storyId,
-                                                                              @RequestBody PatchBackgroundColorRequestDto requestDto) {
+  public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchBackgroundColorRequestDto requestDto
+  ) {
 
-    return responseService.getSingleResponse(storyService.patchBackgroundColor(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchBackgroundColor(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @Operation(summary = "이야기 공개 설정", description = "이야기의 공개 여부를 변경합니다.")
   @PatchMapping("/{storyId}/open")
-  public SingleResponse<PatchOpenStatusResponseDto> patchOpen(@PathVariable long storyId, @RequestBody PatchOpenStatusRequestDto requestDto) {
+  public SingleResponse<PatchOpenStatusResponseDto> patchOpen(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchOpenStatusRequestDto requestDto
+  ) {
     System.out.println("open: " + requestDto.getIsOpened());
 
-    return responseService.getSingleResponse(storyService.patchOpen(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchOpen(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @Operation(summary = "대표 이야기 설정", description = "이야기의 대표 여부를 변경합니다.")
   @PatchMapping("/{storyId}/main")
-  public SingleResponse<PatchMainStatusResponseDto> patchMain(@PathVariable long storyId, @RequestBody PatchMainStatusRequestDto requestDto){
+  public SingleResponse<PatchMainStatusResponseDto> patchMain(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchMainStatusRequestDto requestDto
+  ){
 
-    return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchMain(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @DeleteMapping("/{storyId}")
   @Operation(summary = "이야기 삭제 API", description = "")
   public SingleResponse<String> deleteStory(
+    HttpServletRequest request,
     @PathVariable Long storyId
   ) {
 
-    return responseService.getSingleResponse(storyService.deleteStory(storyId));
+    return responseService.getSingleResponse(storyService.deleteStory(
+      storyId,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   // 스토리 상세 페이지 (story 표지 + qna 목록)

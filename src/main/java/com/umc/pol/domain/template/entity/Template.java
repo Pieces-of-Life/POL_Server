@@ -1,4 +1,5 @@
 package com.umc.pol.domain.template.entity;
+import com.umc.pol.global.entity.Tag;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import javax.persistence.*;
@@ -12,16 +13,20 @@ public class Template {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id")
     private long id;
+
     @NotNull
-    @Column(name = "tag_id")
-    private long tagId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
+
     @NotNull
     @Column(name = "template_content")
     private String templateContent;
 
     @Builder
-    public Template(long tagId, String templateContent) {
-        this.tagId = tagId;
+    public Template(Long id, Tag tag, String templateContent) {
+        this.id = id;
+        this.tag = tag;
         this.templateContent = templateContent;
     }
 }

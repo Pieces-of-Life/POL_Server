@@ -106,10 +106,13 @@ public class StoryService {
     }
 
     @Transactional
-    public PatchBackgroundColorResponseDto patchBackgroundColor(long storyId,
-                                                                PatchBackgroundColorRequestDto requestDto) {
-        Story story = storyRepository.findById(storyId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 스토리입니다."));
+    public PatchBackgroundColorResponseDto patchBackgroundColor(long storyId, PatchBackgroundColorRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
+
         story.updateColor(requestDto.getColor());
 
         return PatchBackgroundColorResponseDto.builder()
@@ -119,9 +122,12 @@ public class StoryService {
 
     // 이야기 공개 설정
     @Transactional
-    public PatchOpenStatusResponseDto patchOpen(long storyId, PatchOpenStatusRequestDto requestDto) {
-        Story story = storyRepository.findById(storyId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+    public PatchOpenStatusResponseDto patchOpen(long storyId, PatchOpenStatusRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
         story.changeIsOpen(requestDto.getIsOpened());
 
@@ -131,19 +137,30 @@ public class StoryService {
     }
 
     @Transactional
-    public PatchMainStatusResponseDto patchMain(long storyId, PatchMainStatusRequestDto requestDto) {
-        Story story = storyRepository.findById(storyId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+    public PatchMainStatusResponseDto patchMain(long storyId, PatchMainStatusRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-        story.changeIsMain(requestDto.getIsMain());
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
+
+        story.changeIsMain(!requestDto.getIsMain());
 
         return PatchMainStatusResponseDto.builder()
-                .isMain(requestDto.getIsMain())
-                .build();
+            .isMain(!requestDto.getIsMain())
+            .build();
+
     }
 
-  public String deleteStory(Long storyId) {
-    storyRepository.deleteById(storyId);
+    @Transactional
+    public String deleteStory(Long storyId, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
+
+        storyRepository.delete(story);
 
         return "Story deleted.";
     }
