@@ -65,4 +65,9 @@ public class User {
         this.level = level;
     }
 
+    public void updateUserInfo(String profileImg, String nickname){
+        this.profileImg = profileImg;
+        this.nickname = nickname;
+    }
+
 }

@@ -63,7 +63,6 @@ dependencies {
 	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0"
 
 	// QueryDSL
-//	implementation "com.querydsl:querydsl-jpa:5.0.0"
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
@@ -75,6 +74,9 @@ dependencies {
 
 	// firebase
 	implementation 'com.google.firebase:firebase-admin:6.11.0'
+
+	// ASW S3
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.389'
 }
 
 tasks.named('test') {
