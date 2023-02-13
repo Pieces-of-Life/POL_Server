@@ -60,10 +60,17 @@ public class StoryController {
 
   @Operation(summary = "표지색 설정", description = "이야기의 배경 색을 지정합니다.")
   @PatchMapping("/{storyId}/color")
-  public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(@PathVariable long storyId,
-                                                                              @RequestBody PatchBackgroundColorRequestDto requestDto) {
+  public SingleResponse<PatchBackgroundColorResponseDto> patchBackgroundColor(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchBackgroundColorRequestDto requestDto
+  ) {
 
-    return responseService.getSingleResponse(storyService.patchBackgroundColor(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchBackgroundColor(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @Operation(summary = "이야기 공개 설정", description = "이야기의 공개 여부를 변경합니다.")
