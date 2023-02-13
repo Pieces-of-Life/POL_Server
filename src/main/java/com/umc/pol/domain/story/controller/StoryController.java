@@ -76,9 +76,17 @@ public class StoryController {
 
   @Operation(summary = "대표 이야기 설정", description = "이야기의 대표 여부를 변경합니다.")
   @PatchMapping("/{storyId}/main")
-  public SingleResponse<PatchMainStatusResponseDto> patchMain(@PathVariable long storyId, @RequestBody PatchMainStatusRequestDto requestDto){
+  public SingleResponse<PatchMainStatusResponseDto> patchMain(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchMainStatusRequestDto requestDto
+  ){
 
-    return responseService.getSingleResponse(storyService.patchMain(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchMain(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @DeleteMapping("/{storyId}")
@@ -88,7 +96,10 @@ public class StoryController {
     @PathVariable Long storyId
   ) {
 
-    return responseService.getSingleResponse(storyService.deleteStory(storyId, (Long) request.getAttribute("id")));
+    return responseService.getSingleResponse(storyService.deleteStory(
+      storyId,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   // 스토리 상세 페이지 (story 표지 + qna 목록)

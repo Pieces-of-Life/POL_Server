@@ -125,14 +125,16 @@ public class StoryService {
     }
 
     @Transactional
-    public PatchMainStatusResponseDto patchMain(long storyId, PatchMainStatusRequestDto requestDto) {
-        Story story = storyRepository.findById(storyId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+    public PatchMainStatusResponseDto patchMain(long storyId, PatchMainStatusRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
-    story.changeIsMain(!requestDto.getIsMain());
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
+        story.changeIsMain(!requestDto.getIsMain());
 
-    return PatchMainStatusResponseDto.builder()
+        return PatchMainStatusResponseDto.builder()
             .isMain(!requestDto.getIsMain())
             .build();
     }
