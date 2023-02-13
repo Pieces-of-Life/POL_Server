@@ -1,8 +1,7 @@
 package com.umc.pol.domain.user.controller;
 
-import com.umc.pol.domain.user.dto.PatchUserInfoRequestDto;
-import com.umc.pol.domain.user.dto.PatchUserInfoResponseDto;
 import com.umc.pol.domain.user.dto.MypageGetResponseDto;
+import com.umc.pol.domain.user.dto.PatchUserInfoResponseDto;
 import com.umc.pol.domain.user.dto.UserInfoGetResponseDto;
 import com.umc.pol.domain.user.service.UserService;
 import com.umc.pol.global.response.ResponseService;
@@ -40,7 +39,7 @@ public class UserController {
 
     @Operation(summary = "유저 정보 수정", description = "현재 유저의 닉네임과 이미지를 수정합니다.")
     @PatchMapping("/profile")
-    public SingleResponse<PatchUserInfoResponseDto> fetchUserInfo(@RequestParam("profileImgUrl")MultipartFile images, @RequestParam String nickname, HttpServletRequest request) {
+    public SingleResponse<PatchUserInfoResponseDto> fetchUserInfo(@RequestParam("profileImgUrl") MultipartFile images, @RequestParam String nickname, HttpServletRequest request) {
         PatchUserInfoResponseDto patchUserInfoResponseDto = null;
         try {
             patchUserInfoResponseDto = userService.fetchUserInfo(images, request, nickname);
