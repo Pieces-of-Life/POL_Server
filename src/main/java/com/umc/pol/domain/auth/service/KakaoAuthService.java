@@ -72,7 +72,7 @@ public class KakaoAuthService {
             System.out.println("error..." + e);
             return KakaoAccountDto.fail();
         }
-        System.out.println("user Info -----" + userInfo.getKakaoAccount().toString());
+        System.out.println("user Info -----" + userInfo.getKakaoAccount().getProfile().toString());
         return userInfo;
     }
 

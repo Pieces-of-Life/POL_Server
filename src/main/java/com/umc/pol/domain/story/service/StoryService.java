@@ -6,9 +6,11 @@ import com.umc.pol.domain.story.dto.*;
 import com.umc.pol.domain.story.dto.request.PostStoryRequest;
 import com.umc.pol.domain.story.dto.response.GetStoryResponse;
 import com.umc.pol.domain.story.dto.response.PostStoryResponse;
+import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Qna;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.entity.StoryTag;
+import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.story.repository.QnaRepository;
 import com.umc.pol.domain.story.repository.StoryTagRepository;
@@ -26,7 +28,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.Objects;
+
 
 import com.umc.pol.domain.story.dto.request.QnaDto;
 
@@ -44,6 +48,8 @@ public class StoryService {
 
     private final StoryTagConverter storyTagConverter;
     private final QnaConverter qnaConverter;
+    private final LikeRepository likeRepository;
+
 
     public List<GetStoryResponse> getStoryList(Pageable pageable, Long cursorId) {
         List<GetStoryResponse> storyList = storyRepository.findStory(pageable, cursorId)
@@ -123,10 +129,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsOpen(!requestDto.getIsOpened());
+        story.changeIsOpen(requestDto.getIsOpened());
 
         return PatchOpenStatusResponseDto.builder()
-                .isOpened(!requestDto.getIsOpened())
+                .isOpened(requestDto.getIsOpened())
                 .build();
     }
 
@@ -143,6 +149,7 @@ public class StoryService {
         return PatchMainStatusResponseDto.builder()
             .isMain(!requestDto.getIsMain())
             .build();
+
     }
 
     @Transactional
@@ -200,7 +207,7 @@ public class StoryService {
     // tagId 기준 이야기  필터링
     public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
         Long userId = (Long) request.getAttribute("id");
-
+        System.out.println("ㅇㅇ:" + userId);
         List<String> setContents = new ArrayList<>();
         // story의 storyTag.Content를 List로 만들기
         List<String> contents = setContents;
@@ -229,4 +236,38 @@ public class StoryService {
         return dtos;
     }
 
+    @Transactional
+    public PostLikeResponseDto postLike(long storyId, PostLikeRequestDto dto, HttpServletRequest request) {
+        boolean status = false;
+        Long userId = (Long) request.getAttribute("id");
+
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("no Story"));
+
+        if (dto.getIsLiked()) {
+            likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+
+        } else {
+            boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
+
+            if (!exist) {
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new IllegalArgumentException("no User"));
+
+                likeRepository.save(Like.builder()
+                        .story(story)
+                        .user(user)
+                        .build()
+                );
+            }
+            status = true;
+
+        }
+
+        story.changeLikeCnt(status);
+
+        return PostLikeResponseDto.builder()
+                .isLiked(status)
+                .build();
+    }
 }
