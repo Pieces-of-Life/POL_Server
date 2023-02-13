@@ -113,9 +113,12 @@ public class StoryService {
 
     // 이야기 공개 설정
     @Transactional
-    public PatchOpenStatusResponseDto patchOpen(long storyId, PatchOpenStatusRequestDto requestDto) {
-        Story story = storyRepository.findById(storyId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+    public PatchOpenStatusResponseDto patchOpen(long storyId, PatchOpenStatusRequestDto requestDto, Long userId) {
+        User user = userRepository.findById(userId)
+          .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
+          .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
         story.changeIsOpen(!requestDto.getIsOpened());
 

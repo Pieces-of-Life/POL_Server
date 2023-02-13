@@ -68,10 +68,18 @@ public class StoryController {
 
   @Operation(summary = "이야기 공개 설정", description = "이야기의 공개 여부를 변경합니다.")
   @PatchMapping("/{storyId}/open")
-  public SingleResponse<PatchOpenStatusResponseDto> patchOpen(@PathVariable long storyId, @RequestBody PatchOpenStatusRequestDto requestDto) {
+  public SingleResponse<PatchOpenStatusResponseDto> patchOpen(
+    HttpServletRequest request,
+    @PathVariable long storyId,
+    @RequestBody PatchOpenStatusRequestDto requestDto
+  ) {
     System.out.println("open: " + requestDto.getIsOpened());
 
-    return responseService.getSingleResponse(storyService.patchOpen(storyId, requestDto));
+    return responseService.getSingleResponse(storyService.patchOpen(
+      storyId,
+      requestDto,
+      (Long) request.getAttribute("id")
+    ));
   }
 
   @Operation(summary = "대표 이야기 설정", description = "이야기의 대표 여부를 변경합니다.")
