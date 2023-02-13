@@ -84,10 +84,11 @@ public class StoryController {
   @DeleteMapping("/{storyId}")
   @Operation(summary = "이야기 삭제 API", description = "")
   public SingleResponse<String> deleteStory(
+    HttpServletRequest request,
     @PathVariable Long storyId
   ) {
 
-    return responseService.getSingleResponse(storyService.deleteStory(storyId));
+    return responseService.getSingleResponse(storyService.deleteStory(storyId, (Long) request.getAttribute("id")));
   }
 
   // 스토리 상세 페이지 (story 표지 + qna 목록)
