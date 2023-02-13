@@ -100,14 +100,8 @@ public class UserService {
 
         // get profileImageUrl
         String uploadUrl = s3StorageClient.upload(images);
-        String userNickname = null;
 
         // 유저데이터 업데이트
-       /* if(patchUserInfoRequestDto.getNickname() != null){
-            userNickname = patchUserInfoRequestDto.getNickname();
-        } else{
-            userNickname = userInfo.getNickname();
-        }*/
         userInfo.updateUserInfo(uploadUrl, nickname);
 
         return PatchUserInfoResponseDto.builder()
