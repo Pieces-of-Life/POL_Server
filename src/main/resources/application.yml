@@ -5,6 +5,7 @@ spring:
     username: ENC(WLT0xiYU9go4CpITF9VsSw==)
     password: ENC(/ELSQeCVmG9WDHarMsv205N2eSzLL9NC)
 
+
   jpa:
     hibernate:
       show-sql: true

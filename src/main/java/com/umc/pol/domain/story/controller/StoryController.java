@@ -8,12 +8,15 @@ import com.umc.pol.domain.story.dto.response.PostStoryResponse;
 import com.umc.pol.domain.story.service.StoryService;
 import com.umc.pol.global.response.ListResponse;
 import com.umc.pol.global.response.ResponseService;
+
 import com.umc.pol.global.response.SingleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,5 +108,11 @@ public class StoryController {
     return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
   }
 
+  @Operation(summary = "이야기 좋아요", description = "이야기에 좋아요를 남깁니다. (토큰 설정 전까지 userId를 RequestParam으로 받음.)")
+  @PostMapping("/{storyId}/like")
+  public SingleResponse<PostLikeResponseDto> postLike(@PathVariable long storyId, @RequestBody PostLikeRequestDto dto, HttpServletRequest request){
+
+    return responseService.getSingleResponse(storyService.postLike(storyId, dto, request));
+  }
 }
 
