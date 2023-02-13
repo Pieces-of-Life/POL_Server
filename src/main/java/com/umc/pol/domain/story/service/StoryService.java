@@ -137,8 +137,9 @@ public class StoryService {
             .build();
     }
 
-  public String deleteStory(Long storyId) {
-    storyRepository.deleteById(storyId);
+    @Transactional
+    public String deleteStory(Long storyId) {
+        storyRepository.deleteById(storyId);
 
         return "Story deleted.";
     }
