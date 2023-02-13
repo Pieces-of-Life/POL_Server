@@ -4,17 +4,17 @@ import com.umc.pol.domain.story.entity.Like;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.LikeRepository;
 import com.umc.pol.domain.story.repository.StoryRepository;
-import com.umc.pol.domain.user.dto.MypageChatDto;
-import com.umc.pol.domain.user.dto.MypageGetResponseDto;
-import com.umc.pol.domain.user.dto.MypageLikeStoryDto;
-import com.umc.pol.domain.user.dto.UserInfoGetResponseDto;
+import com.umc.pol.domain.user.dto.*;
 import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.domain.user.repository.UserRepository;
+import com.umc.pol.global.client.S3StorageClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -24,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final StoryRepository storyRepository;
     private final LikeRepository likeRepository;
+    private final S3StorageClient s3StorageClient;
 
     // 유저 정보 조회
     public UserInfoGetResponseDto getUserInfo(HttpServletRequest request) {
@@ -86,6 +87,26 @@ public class UserService {
         return MypageGetResponseDto.builder()
                 .story(mypageLikeStoryDtoList)
                 .chat(mypageChatDtoList)
+                .build();
+
+    }
+
+    @Transactional
+    public PatchUserInfoResponseDto fetchUserInfo(MultipartFile images, HttpServletRequest request, String nickname) throws IOException {
+        Long userId = (Long) request.getAttribute("id");
+
+        User userInfo = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("유저 정보가 없습니다"));
+
+        // get profileImageUrl
+        String uploadUrl = s3StorageClient.upload(images);
+
+        // 유저데이터 업데이트
+        userInfo.updateUserInfo(uploadUrl, nickname);
+
+        return PatchUserInfoResponseDto.builder()
+                .profileImgUrl(uploadUrl)
+                .nickname(nickname)
                 .build();
 
     }
