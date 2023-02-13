@@ -123,10 +123,10 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
-        story.changeIsOpen(!requestDto.getIsOpened());
+        story.changeIsOpen(requestDto.getIsOpened());
 
         return PatchOpenStatusResponseDto.builder()
-                .isOpened(!requestDto.getIsOpened())
+                .isOpened(requestDto.getIsOpened())
                 .build();
     }
 
