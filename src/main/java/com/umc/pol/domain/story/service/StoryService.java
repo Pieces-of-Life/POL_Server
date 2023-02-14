@@ -166,7 +166,7 @@ public class StoryService {
     }
 
     // 쪽지 상세 페이지 (story 표지 + qnaList)
-    public StorySpecDto getStorySpecPage(long storyId) {
+    public StorySpecDto getStorySpecPage(long storyId, long userId) {
 
         // 표지
         Story story = storyRepository.findById(storyId)
@@ -182,6 +182,8 @@ public class StoryService {
                 .likeCnt(story.getLikeCnt())
                 .profileImgUrl(story.getUser().getProfileImg())
                 .nickname(story.getUser().getNickname())
+                .writerId(story.getUser().getId())
+                .myId(userId)
                 .build();
 
         // qna 리스트
