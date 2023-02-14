@@ -129,10 +129,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsOpen(requestDto.getIsOpened());
+        story.changeIsOpen(!requestDto.getIsOpened());
 
         return PatchOpenStatusResponseDto.builder()
-                .isOpened(requestDto.getIsOpened())
+                .isOpened(!requestDto.getIsOpened())
                 .build();
     }
 
@@ -144,10 +144,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsMain(requestDto.getIsMain());
+        story.changeIsMain(!requestDto.getIsMain());
 
         return PatchMainStatusResponseDto.builder()
-            .isMain(requestDto.getIsMain())
+            .isMain(!requestDto.getIsMain())
             .build();
 
     }
@@ -245,8 +245,10 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("no Story"));
 
-        if (dto.getIsLiked()) {
+        if (!dto.getIsLiked()) {
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+            story.changeLikeCnt(false);
+            status = false;
 
         } else {
             boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
@@ -260,12 +262,13 @@ public class StoryService {
                         .user(user)
                         .build()
                 );
+                story.changeLikeCnt(true);
             }
             status = true;
 
         }
 
-        story.changeLikeCnt(status);
+
 
         return PostLikeResponseDto.builder()
                 .isLiked(status)
