@@ -2,7 +2,6 @@ package com.umc.pol.domain.story.entity;
 
 import com.umc.pol.global.entity.Tag;
 
-import com.umc.pol.global.entity.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;

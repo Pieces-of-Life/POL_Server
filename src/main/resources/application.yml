@@ -5,6 +5,7 @@ spring:
     username: ENC(WLT0xiYU9go4CpITF9VsSw==)
     password: ENC(/ELSQeCVmG9WDHarMsv205N2eSzLL9NC)
 
+
   jpa:
     hibernate:
       show-sql: true
@@ -48,3 +49,15 @@ app:
 
 firebase-realtime-database:
   database-url: https://pol-chat-default-rtdb.firebaseio.com/
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: umcpol-bucket
+    credentials:
+      accessKey: ENC(Q0LMeWXnJtuMZHeBuWKkqBvDKD+7VSyVjfp8Tqvrj6U=)
+      secretKey: ENC(3i1aiFaFKgm8u9AcuyjEl+GZcb4tefWZYFfFgniWG1ZLXsFQ6d2thEjjlu2UW7hFs66XEo/h90o=)
+    stack:
+        auto: false
