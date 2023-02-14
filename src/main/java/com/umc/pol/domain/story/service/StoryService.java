@@ -165,7 +165,7 @@ public class StoryService {
         return "Story deleted.";
     }
 
-    // 쪽지 상세 페이지 (story 표지 + qnaList)
+    // 스토리 상세 페이지 (story 표지 + qnaList)
     public StorySpecDto getStorySpecPage(long storyId, long userId) {
 
         // 표지
