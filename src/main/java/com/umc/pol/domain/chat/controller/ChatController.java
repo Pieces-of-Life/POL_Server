@@ -95,13 +95,22 @@ public class ChatController {
         return chatService.getMyChatCover(userId);
     }*/
 
-    // 4. '나의' 모든 채팅방들의 표지
+    /*// 4. '나의' 모든 채팅방들의 표지
     // ( 채팅방id, 마지막 채팅 메시지, 날짜, 마지막 채팅 작성자 id, 작성자 닉네임, 작성자 프로필 이미지) 리스트 get
     @Operation(summary = "채팅방 표지 리스트", description = "채팅방id, 마지막 채팅 메시지, 마지막 채팅 작성자, 날짜, 마지막 채팅 친 유저 닉네임, 유저 플필")
     @GetMapping("/mychatcover")
     public ChatCoverDto getMyChatCover(HttpServletRequest request) throws Exception {
         Long userId = (Long) request.getAttribute("id");
         return chatService.getMyChatCover(userId);
+    }*/
+
+    // 4. '나의' 모든 채팅방들의 표지 // SingleResponse
+    // ( 채팅방id, 마지막 채팅 메시지, 날짜, 마지막 채팅 작성자 id, 작성자 닉네임, 작성자 프로필 이미지) 리스트 get
+    @Operation(summary = "채팅방 표지 리스트", description = "채팅방id, 마지막 채팅 메시지, 마지막 채팅 작성자, 날짜, 마지막 채팅 친 유저 닉네임, 유저 플필")
+    @GetMapping("/mychatcover")
+    public SingleResponse<ChatCoverDto> getMyChatCover(HttpServletRequest request) throws Exception {
+        Long userId = (Long) request.getAttribute("id");
+        return responseService.getSingleResponse(chatService.getMyChatCover(userId));
     }
 
     // 특정 채팅방 데이터 가져오기

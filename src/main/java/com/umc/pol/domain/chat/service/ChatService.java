@@ -7,6 +7,8 @@ import com.umc.pol.domain.chat.dto.*;
 import com.umc.pol.domain.story.dto.StoryCoverDto;
 import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.StoryRepository;
+import com.umc.pol.domain.user.entity.User;
+import com.umc.pol.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 public class ChatService {
 
     private final StoryRepository storyRepository;
+    private final UserRepository userRepository;
 
     /*public String createChatroom(String chatroomId, Chat chat) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -40,6 +43,7 @@ public class ChatService {
     ////////
 
     // 1. 채팅방 만들기
+    // 방 생성 시 이름 : "chatroom" + "이야기id_" + "보내는사람id" = "chatroom1_2"
     // https://cloud.google.com/firestore/docs/samples/firestore-data-set-from-map-nested?hl=ko
     public void makeroom(Long storyId, Long senderId, Chat chat) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -79,8 +83,6 @@ public class ChatService {
         String path = "chatrooms";
 
         String now = LocalDateTime.now().toString();
-
-        System.out.println("!!!!" + now.toString());
 
         // 채팅 말풍선 하나 하나
         Map<String, Object> docData = new HashMap<>();
@@ -232,7 +234,7 @@ public class ChatService {
         return list2;
     }*/
 
-    // 4. '나의' 모든 채팅방들의 표지 ( 채팅방id, 마지막 채팅 메시지, 마지막 채팅 작성자, 날짜 ) 리스트 get
+    /*// 4. '나의' 모든 채팅방들의 표지 ( 채팅방id, 마지막 채팅 메시지, 마지막 채팅 작성자, 날짜 ) 리스트 get
     // 모든에서 내가 주고받은 으로 바꿔야 함.
     // --> writer가 나거나, sender가 나거나.
     // chatrooms.where(writer || sender == 내id)
@@ -285,7 +287,123 @@ public class ChatService {
             String storyId = chatroomName.substring(8, chatroomName.indexOf("_"));
             System.out.println("!!!! storyId = " + storyId);
 
+
+            String senderId = chatroomName.substring(chatroomName.indexOf("_") + 1);
+            System.out.println("!$!$! senderId = " + senderId);
+
+            Long senderIdLong = Long.parseLong(senderId);
+
+            Long lastMessageWriterId;
+
+            if (userId == senderIdLong) {
+                lastMessageWriterId = userId;
+            } else {
+                lastMessageWriterId = senderIdLong;
+            }
+
+            objects.add(lastMessageWriterId); // 마지막 메시지 작성자 id
+            User user = userRepository.findById(lastMessageWriterId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+            objects.add(user.getNickname()); // 마지막 메시지 작성자 닉네임
+            objects.add(user.getProfileImg()); // 마지막 메시지 작성자 프로필 사진
+
             i++;
+            list2.add(objects); // 이건 dto로 만들자?
+        }
+
+
+        ChatCoverDto chatCover = ChatCoverDto.builder()
+                .data(list2)
+                .build();
+
+        return chatCover;
+    }*/
+
+    // 4. '나의' 모든 채팅방들의 표지 ( 채팅방id, 마지막 채팅 메시지, 마지막 채팅 작성자, 날짜 ) 리스트 get
+    // 모든에서 내가 주고받은 으로 바꿔야 함.
+    // --> writer가 나거나, sender가 나거나.
+    // chatrooms.where(writer || sender == 내id)
+    public ChatCoverDto getMyChatCover(Long userId) throws ExecutionException, InterruptedException {
+
+        // '나의' 모든 채팅방 이름
+        List<Object> list = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        String path = "chatrooms";
+        CollectionReference cities = db.collection(path);
+        // sender가 나인 경우
+        Query query = cities.whereEqualTo("sender", userId);
+        Collection<QueryDocumentSnapshot> documents1 = query.get().get().getDocuments();
+
+        for (QueryDocumentSnapshot document : documents1) {
+            list.add(document.getId());
+        }
+
+        // writer가 나인 경우
+        Query query2 = cities.whereEqualTo("writer", userId);
+        Collection<QueryDocumentSnapshot> documents2 = query2.get().get().getDocuments();
+
+        for (QueryDocumentSnapshot document : documents2) {
+            list.add(document.getId());
+        }
+
+        // 모든 채팅방의 chats
+        Collection<Object> list2 = new ArrayList<>();
+        int i = 0;
+        for (Object obj : list) {
+            // obj가 방 이름
+            // 날짜 정렬
+            // ApiFuture<QuerySnapshot> documentReference = db.collection("chatrooms").document(obj.toString()).collection("chats").orderBy("date").get();
+            // 가장 최근 메시지 하나만
+            ApiFuture<QuerySnapshot> documentReference = db.collection("chatrooms").document(obj.toString()).collection("chats").orderBy("date", Query.Direction.DESCENDING).limit(1).get();
+
+            QuerySnapshot document = documentReference.get();
+
+            // Collection<Object> objects = document.toObjects(Object.class);
+            // Collection<ChatForChatCover> objects = document.toObjects(ChatForChatCover.class);
+            Collection<Object> objects = document.toObjects(Object.class);
+
+            /*CoverChatDto coverChat = CoverChatDto.builder()
+                    .chatroomId(null)
+                    .userId(null)
+                    .nickname(null)
+                    .profileImg(null)
+                    .build();
+
+            objects.add(coverChat);*/
+
+//            objects.add(list.get(i)); // 1. 채팅방 id (이름)
+
+            String chatroomName = list.get(i).toString();
+
+            String senderId = chatroomName.substring(chatroomName.indexOf("_") + 1);
+
+            Long senderIdLong = Long.parseLong(senderId);
+
+            Long lastMessageWriterId;
+
+            if (userId == senderIdLong) {
+                lastMessageWriterId = userId;
+            } else {
+                lastMessageWriterId = senderIdLong;
+            }
+
+//            objects.add(lastMessageWriterId); // 2. 마지막 메시지 작성자 id
+            User user = userRepository.findById(lastMessageWriterId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+//            objects.add(user.getNickname()); // 3. 마지막 메시지 작성자 닉네임
+//            objects.add(user.getProfileImg()); // 4. 마지막 메시지 작성자 프로필 사진
+
+            CoverChatDto coverChat = CoverChatDto.builder() // 4개 dto로 만들고 한번에 넣기
+                    .chatroomId(list.get(i).toString()) // 1
+                    .userId(lastMessageWriterId) // 2
+                    .nickname(user.getNickname()) // 3
+                    .profileImg(user.getProfileImg()) // 4
+                    .build();
+
+            objects.add(coverChat); // dto 만든거 objects에 넣기
+
+            i++;
+
             list2.add(objects); // 이건 dto로 만들자?
         }
 
