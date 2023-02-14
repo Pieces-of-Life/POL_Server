@@ -9,8 +9,11 @@ import com.umc.pol.domain.story.entity.Story;
 import com.umc.pol.domain.story.repository.StoryRepository;
 import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.domain.user.repository.UserRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -389,7 +392,7 @@ public class ChatService {
 
 //            objects.add(lastMessageWriterId); // 2. 마지막 메시지 작성자 id
             User user = userRepository.findById(lastMessageWriterId)
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 //            objects.add(user.getNickname()); // 3. 마지막 메시지 작성자 닉네임
 //            objects.add(user.getProfileImg()); // 4. 마지막 메시지 작성자 프로필 사진
 
@@ -415,6 +418,26 @@ public class ChatService {
         return chatCover;
     }
 
+    // 4-1. 유저 id 받고 유저 이름, 유저 이미지 리턴
+    public Object getUserinfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+        @Getter
+        class Info {
+            String nickname;
+            String profileImg;
+
+            public Info(String nickname, String profileImg) {
+                this.nickname = nickname;
+                this.profileImg = profileImg;
+            }
+        }
+
+        Info info = new Info(user.getNickname(), user.getProfileImg());
+
+        return info;
+    }
 
     // 특정 채팅방 데이터 가져오기
     public Object getChatroomDetail(String chatroomId) throws Exception {
