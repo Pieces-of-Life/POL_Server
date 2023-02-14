@@ -3,6 +3,7 @@ package com.umc.pol.domain.story.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,17 +19,22 @@ public class StoryCoverDto {
     private boolean isLiked;
     private String profileImgUrl;
     private String nickname;
+    private Long writerId;
+    private Long myId;
+
 
     @Builder
     public StoryCoverDto(Long id,
-     String title,
-     String description,
-     LocalDateTime date,
-     String color,
-     Long likeCnt,
-     boolean isLiked,
-     String profileImgUrl,
-     String nickname) {
+                         String title,
+                         String description,
+                         LocalDateTime date,
+                         String color,
+                         Long likeCnt,
+                         boolean isLiked,
+                         String profileImgUrl,
+                         String nickname,
+                         Long writerId,
+                         Long myId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -38,5 +44,7 @@ public class StoryCoverDto {
         this.isLiked = isLiked;
         this.profileImgUrl = profileImgUrl;
         this.nickname = nickname;
+        this.writerId = writerId;
+        this.myId = myId;
     }
 }

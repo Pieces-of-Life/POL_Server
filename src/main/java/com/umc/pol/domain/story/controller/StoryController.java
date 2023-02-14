@@ -93,8 +93,9 @@ public class StoryController {
   // 스토리 상세 페이지 (story 표지 + qna 목록)
   @Operation(summary = "스토리 상세 페이지 조회", description = "스토리 상세 페이지 조회 (story 표지 + qna 목록)")
   @GetMapping("/{storyId}")
-  public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId) {
-    return responseService.getSingleResponse(storyService.getStorySpecPage(storyId));
+  public SingleResponse<StorySpecDto> getStorySpecPage(@PathVariable("storyId") long storyId, HttpServletRequest request) {
+    Long userId = (Long) request.getAttribute("id");
+    return responseService.getSingleResponse(storyService.getStorySpecPage(storyId, userId));
   }
 
   @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
