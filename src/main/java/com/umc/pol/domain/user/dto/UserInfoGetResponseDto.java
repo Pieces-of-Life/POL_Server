@@ -7,13 +7,15 @@ import lombok.ToString;
 
 @Getter
 public class UserInfoGetResponseDto {
+    private Long userId;
     private String profileImgUrl;
     private String nickname;
     private Long score;
     private Long level;
 
     @Builder
-    public UserInfoGetResponseDto(String profileImgUrl, String nickname, Long score, Long level) {
+    public UserInfoGetResponseDto(Long userId, String profileImgUrl, String nickname, Long score, Long level) {
+        this.userId = userId;
         this.profileImgUrl = profileImgUrl;
         this.nickname = nickname;
         this.score = score;
