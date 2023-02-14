@@ -129,10 +129,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsOpen(requestDto.getIsOpened());
+        story.changeIsOpen(!requestDto.getIsOpened());
 
         return PatchOpenStatusResponseDto.builder()
-                .isOpened(requestDto.getIsOpened())
+                .isOpened(!requestDto.getIsOpened())
                 .build();
     }
 
