@@ -113,6 +113,13 @@ public class ChatController {
         return responseService.getSingleResponse(chatService.getMyChatCover(userId));
     }
 
+    // 4-1. 유저 id 받고 유저 이름, 유저 이미지 리턴
+    @Operation(summary = "유저 이름, 유저 이미지", description = "유저 이름, 유저 이미지")
+    @GetMapping("/userinfo/{userId}")
+    public Object getUserinfo(@PathVariable("userId") Long userId) {
+        return chatService.getUserinfo(userId);
+    }
+
     // 특정 채팅방 데이터 가져오기
     @GetMapping("/{chatroomId}")
     @Operation(hidden = true)
