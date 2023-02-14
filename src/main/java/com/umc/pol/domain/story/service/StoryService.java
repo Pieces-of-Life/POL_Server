@@ -245,8 +245,10 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("no Story"));
 
-        if (dto.getIsLiked()) {
+        if (!dto.getIsLiked()) {
             likeRepository.deleteByStoryIdAndUserId(storyId, userId);
+            story.changeLikeCnt(false);
+            status = false;
 
         } else {
             boolean exist = likeRepository.existsByUserIdAndStoryId(userId, storyId);
@@ -260,12 +262,13 @@ public class StoryService {
                         .user(user)
                         .build()
                 );
+                story.changeLikeCnt(true);
             }
             status = true;
 
         }
 
-        story.changeLikeCnt(status);
+
 
         return PostLikeResponseDto.builder()
                 .isLiked(status)
