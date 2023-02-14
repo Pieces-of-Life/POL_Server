@@ -144,10 +144,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsMain(!requestDto.getIsMain());
+        story.changeIsMain(requestDto.getIsMain());
 
         return PatchMainStatusResponseDto.builder()
-            .isMain(!requestDto.getIsMain())
+            .isMain(requestDto.getIsMain())
             .build();
 
     }
@@ -207,7 +207,6 @@ public class StoryService {
     // tagId 기준 이야기  필터링
     public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
         Long userId = (Long) request.getAttribute("id");
-        System.out.println("ㅇㅇ:" + userId);
         List<String> setContents = new ArrayList<>();
         // story의 storyTag.Content를 List로 만들기
         List<String> contents = setContents;
