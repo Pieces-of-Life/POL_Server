@@ -36,6 +36,7 @@ public class UserService {
 
 
         UserInfoGetResponseDto userInfoGetResponseDto = UserInfoGetResponseDto.builder()
+                .userId(userInfo.getId())
                 .nickname(userInfo.getNickname())
                 .score(userInfo.getScore())
                 .profileImgUrl(userInfo.getProfileImg())
