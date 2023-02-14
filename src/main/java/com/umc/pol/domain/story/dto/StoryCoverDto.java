@@ -17,6 +17,8 @@ public class StoryCoverDto {
     private String color;
     private Long likeCnt;
     private boolean isLiked;
+    private boolean isOpen;
+    private boolean isMain;
     private String profileImgUrl;
     private String nickname;
     private Long writerId;
@@ -31,6 +33,8 @@ public class StoryCoverDto {
                          String color,
                          Long likeCnt,
                          boolean isLiked,
+                         boolean isOpen,
+                         boolean isMain,
                          String profileImgUrl,
                          String nickname,
                          Long writerId,
@@ -42,6 +46,8 @@ public class StoryCoverDto {
         this.color = color;
         this.likeCnt = likeCnt;
         this.isLiked = isLiked;
+        this.isOpen = isOpen;
+        this.isMain = isMain;
         this.profileImgUrl = profileImgUrl;
         this.nickname = nickname;
         this.writerId = writerId;
