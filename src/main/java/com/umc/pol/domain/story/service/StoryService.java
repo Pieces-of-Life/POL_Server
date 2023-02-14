@@ -144,10 +144,10 @@ public class StoryService {
         Story story = storyRepository.findStoryByUserAndAndId(user, storyId)
           .orElseThrow(() -> new IllegalArgumentException("사용자가 작성한 스토리가 아닙니다."));
 
-        story.changeIsMain(requestDto.getIsMain());
+        story.changeIsMain(!requestDto.getIsMain());
 
         return PatchMainStatusResponseDto.builder()
-            .isMain(requestDto.getIsMain())
+            .isMain(!requestDto.getIsMain())
             .build();
 
     }
