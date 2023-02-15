@@ -142,5 +142,15 @@ public class StoryController {
 
     return responseService.getSingleResponse(storyService.postLike(storyId, dto, request));
   }
+
+  @GetMapping("/my")
+  @Operation(summary = "자신이 작성한 이야기 모두 조회", description = "")
+  public SingleResponse<StoryMyCountDto> getMyStoryList(
+          Pageable pageable, HttpServletRequest request
+  ) {
+
+    return responseService.getSingleResponse(storyService.getMyStoryList(pageable, request));
+  }
+
 }
 
