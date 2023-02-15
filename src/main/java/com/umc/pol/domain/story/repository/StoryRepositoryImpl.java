@@ -110,4 +110,19 @@ public class StoryRepositoryImpl implements StoryRepositoryCustom{
     }
     return new OrderSpecifier(Order.ASC, storyTag.content);
   }
+
+  @Override
+  public Page<Story> findUserAllStory(Pageable pageable, Long userId){
+    List<Story> content = queryFactory
+            .selectFrom(story)
+            .join(story.user, user).fetchJoin()
+            .where(user.id.eq(userId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(story.createdAt.desc())
+            .fetch();
+
+    return new PageImpl<>(content);
+  }
+
 }

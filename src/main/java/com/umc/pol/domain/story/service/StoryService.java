@@ -297,4 +297,21 @@ public class StoryService {
                 .isLiked(status)
                 .build();
     }
+
+    public StoryMyCountDto getMyStoryList(Pageable pageable, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("id");
+
+        List<Story> stories = storyRepository.findAllByUserId(userId);
+
+        List<ResponseMyStoryDto> dtos = storyRepository.findUserAllStory(pageable, userId)
+                                                    .stream().map(ResponseMyStoryDto::new)
+                                                    .collect(Collectors.toList());
+
+
+        return StoryMyCountDto.builder()
+                .userStoryCnt(stories.size())
+                .userPieceCnt(stories.stream().mapToInt(qnaRepository::countByStory).sum())
+                .stories(dtos)
+                .build();
+    }
 }

@@ -15,4 +15,6 @@ public interface StoryRepositoryCustom {
 
   Page<Story> findUserMainStory(Pageable pageable, Long cursorId, Long userId);
 
+  Page<Story> findUserAllStory(Pageable pageable, Long userId);
+
 }
