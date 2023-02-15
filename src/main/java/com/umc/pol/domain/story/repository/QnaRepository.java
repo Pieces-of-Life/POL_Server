@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface QnaRepository extends JpaRepository<Qna, Long> {
     List<Qna> findAllByStory(Story story);
+
+    int countByStory(Story data);
 }

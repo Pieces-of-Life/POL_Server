@@ -207,7 +207,8 @@ public class StoryService {
     }
 
     // tagId 기준 이야기  필터링
-    public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
+//    public List<ResponseStoryFilterDto> getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
+    public StoryCountDto getFilterStoryPage(HttpServletRequest request, long tagId, Pageable pageable) {
         Long userId = (Long) request.getAttribute("id");
         List<String> setContents = new ArrayList<>();
         // story의 storyTag.Content를 List로 만들기
@@ -224,6 +225,7 @@ public class StoryService {
         setContents = contents.stream().distinct().collect(Collectors.toList());
 
 
+
         // content를 기준으로 story 묶기
         setContents.forEach(content -> dtos.add(ResponseStoryFilterDto.builder()
                                                                     .storyTag(content)
@@ -234,7 +236,14 @@ public class StoryService {
                                                                     .build())
         );
 
-        return dtos;
+        List<Story> allStories = storyRepository.findAllByUserId(userId);
+
+        return StoryCountDto.builder()
+                .userStoryCnt(allStories.size())
+                .userPieceCnt(allStories.stream().mapToInt(qnaRepository::countByStory).sum())
+                .storyTags(dtos)
+                .build();
+
     }
 
     @Transactional
