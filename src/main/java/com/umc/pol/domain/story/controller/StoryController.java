@@ -130,10 +130,10 @@ public class StoryController {
 
   @Operation(summary = "이야기 필터링", description = "자신이 쓴 이야기를 tagId를 기준으로 필터링합니다. [요청할 때마다 page를 1씩 증가시키면서 호출]")
   @GetMapping("/filter/{tagId}")
-  public ListResponse<ResponseStoryFilterDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
+  public SingleResponse<StoryCountDto> filteringStory(@PathVariable long tagId, Pageable pageable, HttpServletRequest request) {
 
 
-    return responseService.getListResponse(storyService.getFilterStoryPage(request, tagId, pageable));
+    return responseService.getSingleResponse(storyService.getFilterStoryPage(request, tagId, pageable));
   }
 
   @Operation(summary = "이야기 좋아요", description = "이야기에 좋아요를 남깁니다. (토큰 설정 전까지 userId를 RequestParam으로 받음.)")
