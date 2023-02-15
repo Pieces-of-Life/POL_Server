@@ -19,6 +19,7 @@ import com.umc.pol.domain.user.entity.User;
 import com.umc.pol.domain.user.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -172,6 +173,16 @@ public class StoryService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토리입니다."));
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Boolean isLikedFlag = false;
+
+        Collection<Like> liked = likeRepository.isLiked(story, user);
+
+        if (!liked.isEmpty()) {
+            isLikedFlag = true;
+        }
 
         StoryCoverDto storyCover = StoryCoverDto.builder()
                 .id(story.getId())
@@ -180,6 +191,9 @@ public class StoryService {
                 .date(story.getCreatedAt())
                 .color(story.getColor())
                 .likeCnt(story.getLikeCnt())
+                .isLiked(isLikedFlag)
+                .isOpen(story.getIsOpen())
+                .isMain(story.getIsMain())
                 .profileImgUrl(story.getUser().getProfileImg())
                 .nickname(story.getUser().getNickname())
                 .writerId(story.getUser().getId())
